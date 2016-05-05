@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. A brief introduction to reStructuredText &mdash; myFirstDoc 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="myFirstDoc 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="2. Documentation Example" href="docInterface.html" />
+    <link rel="prev" title="Welcome to myFirstDoc’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="docInterface.html" title="2. Documentation Example"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to myFirstDoc’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">myFirstDoc 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="a-brief-introduction-to-restructuredtext">
+<h1>1. A brief introduction to <em>re</em>Structured<em>Text</em><a class="headerlink" href="#a-brief-introduction-to-restructuredtext" title="Permalink to this headline">¶</a></h1>
+<p>This is a brief introduction to <em>re</em>Structured<em>Text</em>. A more complete
+description may be found on the
+<a class="reference external" href="http://docutils.sourceforge.net/rst.html">reST</a>,
+<a class="reference external" href="http://www.sphinx-doc.org">Sphinx</a> and
+<a class="reference external" href="https://pythonhosted.org/an_example_pypi_project/sphinx.html">Python</a>,
+web pages of, as well as the notes of
+<a class="reference external" href="http://thomas-cokelaer.info/tutorials/sphinx/index.html">thomas cokelaer</a>
+.</p>
+<div class="section" id="introduction">
+<h2>1.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><em>re</em>Structured<em>Text</em> syntax provides an easy-to-read,
+what-you-see-is-what-you-get plaintext markup syntax and parser system.</p>
+</div>
+<div class="section" id="text-formatting">
+<h2>1.2. Text Formatting<a class="headerlink" href="#text-formatting" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="special-characters-and-inline-markups">
+<h3>1.2.1. Special characters and inline markups<a class="headerlink" href="#special-characters-and-inline-markups" title="Permalink to this headline">¶</a></h3>
+<p>There are two special text formating characters: <tt class="docutils literal"><span class="pre">*</span></tt> and <tt class="docutils literal"><span class="pre">`</span></tt>. The former
+is used to produce <em>italics</em> and <strong>bold</strong> text and the latter is used to
+define <tt class="docutils literal"><span class="pre">verbatim</span></tt> text as well as to create both internal and external links.
+The proper use of these special characters is summarized on the following table</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="45%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Usage</th>
+<th class="head">Syntax</th>
+<th class="head">HTML rendering</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>italic</td>
+<td><tt class="docutils literal"><span class="pre">*italic*</span></tt></td>
+<td><em>italic</em></td>
+</tr>
+<tr class="row-odd"><td>bold</td>
+<td><tt class="docutils literal"><span class="pre">**bold**</span></tt></td>
+<td><strong>bold</strong></td>
+</tr>
+<tr class="row-even"><td>link</td>
+<td><tt class="docutils literal"><span class="pre">`Python</span> <span class="pre">&lt;www.python.org&gt;`_</span></tt></td>
+<td><a class="reference external" href="https://pythonhosted.org/an_example_pypi_project/sphinx.html">Python</a></td>
+</tr>
+<tr class="row-odd"><td>verbatim</td>
+<td><tt class="docutils literal"><span class="pre">``*``</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">*</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>There are, however, some restrictions on the use of <tt class="docutils literal"><span class="pre">*</span></tt> and <tt class="docutils literal"><span class="pre">`</span></tt>. They:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">can not be nested,</p>
+</li>
+<li><p class="first">content may not start or end with whitespace: * text* is wrong,</p>
+</li>
+<li><dl class="first docutils">
+<dt>it must be separated from surrounding text by non-word characters, like</dt>
+<dd><p class="first last">a space.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>The use of the escape character, <tt class="docutils literal"><span class="pre">\</span></tt>, fixes the last two restrictions.</p>
+</div>
+<div class="section" id="headings">
+<h3>1.2.2. Headings<a class="headerlink" href="#headings" title="Permalink to this headline">¶</a></h3>
+<p>Headers are used to break longer text up into sections. These are a single
+line of text with an underline (alone), or an underline and an overline
+of the same length (which should match the header length). The non-alphanumeric
+characters allowed in the declaration of headers are
+<tt class="docutils literal"><span class="pre">=</span> <span class="pre">-</span> <span class="pre">`</span> <span class="pre">:</span> <span class="pre">'</span> <span class="pre">&quot;</span> <span class="pre">~</span> <span class="pre">^</span> <span class="pre">_</span> <span class="pre">*</span> <span class="pre">+</span> <span class="pre">#</span> <span class="pre">&lt;</span> <span class="pre">&gt;</span></tt></p>
+</div>
+<div class="section" id="internal-and-external-links">
+<h3>1.2.3. Internal and external links<a class="headerlink" href="#internal-and-external-links" title="Permalink to this headline">¶</a></h3>
+<p>In <a class="reference external" href="http://www.sphinx-doc.org">Sphinx</a> there are 3 types of links:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="47%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Declaration</th>
+<th class="head">Reference</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>External</td>
+<td><tt class="docutils literal"><span class="pre">`google</span> <span class="pre">&lt;https://www.google.com&gt;`_</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">`google`_</span></tt></td>
+</tr>
+<tr class="row-odd"><td>Implicit</td>
+<td><div class="first last line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">Internal</span> <span class="pre">and</span> <span class="pre">external</span> <span class="pre">links</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">---------------------------</span></tt></div>
+</div>
+</td>
+<td><tt class="docutils literal"><span class="pre">`Internal</span> <span class="pre">and</span> <span class="pre">external</span> <span class="pre">links`_</span></tt></td>
+</tr>
+<tr class="row-even"><td>Explicit</td>
+<td><tt class="docutils literal"><span class="pre">..</span> <span class="pre">_myLabel:</span></tt></td>
+<td><p class="first"><tt class="docutils literal"><span class="pre">myLabel_</span></tt>
+Goes to the location where the
+label was declared</p>
+<p class="last"><tt class="docutils literal"><span class="pre">:ref:</span> <span class="pre">`myLabel`</span></tt>
+Goes to the 1st header after the
+label declaration</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="directives">
+<h2>1.3. Directives<a class="headerlink" href="#directives" title="Permalink to this headline">¶</a></h2>
+<p>Sphinx and reST directives are the primary syntax extension mechanism. All
+directives have a common syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. Type:: Directive
+   block
+</pre></div>
+</div>
+<p>Directives are used to include specific formated text. For example, the
+combination <tt class="docutils literal"><span class="pre">Type</span> <span class="pre">=</span> <span class="pre">code</span></tt> and <tt class="docutils literal"><span class="pre">Directive</span> <span class="pre">=</span> <span class="pre">python</span></tt> will highly python syntax</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">myNum</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myNum</span><span class="o">=</span><span class="n">myNum</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="boxes">
+<h2>1.4. Boxes<a class="headerlink" href="#boxes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="literal-blocks">
+<h3>1.4.1. Literal Blocks<a class="headerlink" href="#literal-blocks" title="Permalink to this headline">¶</a></h3>
+<p>Beside specific directives, there are simples ways to introduce literal
+code-blocks, that is to end a paragraph with the double colon marker <tt class="docutils literal"><span class="pre">::</span></tt>
+and then insert the desired literal block (which should be indented). For
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>::
+
+    import math
+    print &#39;import math&#39;
+</pre></div>
+</div>
+<p>produces:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="k">print</span> <span class="s1">&#39;import math&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>1.4.2. Boxes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Simple directives such as <tt class="docutils literal"><span class="pre">note</span></tt>, <tt class="docutils literal"><span class="pre">seealso</span></tt> and <tt class="docutils literal"><span class="pre">warning</span></tt>
+create nice colored boxes:</p>
+<p>note syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. note:: This is a **note** box
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a simple <strong>note</strong> box</p>
+</div>
+<p>seealso syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. seealso:: This is a **seealso** box
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">This is a <strong>seealso</strong> box</p>
+</div>
+<p>warning syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. warning:: This is a **warning** box
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is a <strong>warning</strong> box</p>
+</div>
+</div>
+<div class="section" id="topic">
+<h3>1.4.3. Topic<a class="headerlink" href="#topic" title="Permalink to this headline">¶</a></h3>
+<p>This directive allows to write a title and a text within a box. The topic syntax
+is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. topic:: Title of you topic
+
+    The rest of the text goes here
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title first">Title of you topic</p>
+<p>The rest of the text goes here</p>
+</div>
+</div>
+<div class="section" id="sidebar">
+<h3>1.4.4. Sidebar<a class="headerlink" href="#sidebar" title="Permalink to this headline">¶</a></h3>
+<p>The syntax is pretty similar to that of <tt class="docutils literal"><span class="pre">topic</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. sidebar:: Here goes the tile
+
+    And the rest goes here
+</pre></div>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Here goes the tile</p>
+<p class="last">And the rest goes here</p>
+</div>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h2>1.5. Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="comments">
+<h3>1.5.1. Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h3>
+<p>Comments can made by adding two dots to the beginning of the line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. This will be a comment
+</pre></div>
+</div>
+</div>
+<div class="section" id="substitutions">
+<h3>1.5.2. Substitutions<a class="headerlink" href="#substitutions" title="Permalink to this headline">¶</a></h3>
+<p>The syntax to define a substitution is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. _Java: http://www.java.com
+</pre></div>
+</div>
+<p>Then, references to them are done by inserting the <tt class="docutils literal"><span class="pre">_</span></tt>-suffixed alias in the
+text, i.e., <tt class="docutils literal"><span class="pre">Java_</span></tt> yields <a class="reference external" href="http://www.java.com">Java</a> in this case.</p>
+<p>A second way to use substitutions is the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. |myText| replace:: This is a very long text that will appear over and
+    over, better to use a label!!!
+</pre></div>
+</div>
+<p>Now <tt class="docutils literal"><span class="pre">|myText|</span></tt> will yield &#8220;a very long text that will appear over and
+over, better to use a label!!!&#8221;</p>
+</div>
+<div class="section" id="field-list">
+<h3>1.5.3. field list<a class="headerlink" href="#field-list" title="Permalink to this headline">¶</a></h3>
+<p>The syntax to create a new field is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>:newField: This is the declaration of a new field
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">newField:</th><td class="field-body">This is the declaration of a new field</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="glossary">
+<h3>1.5.4. glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h3>
+<p>The syntax to create a glossary is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. glossary::
+    iconoclast
+        A person that does not believe in images of symbols
+</pre></div>
+</div>
+<dl class="glossary docutils">
+<dt id="term-iconoclast">iconoclast</dt>
+<dd>A person that does not believe in images of symbols.</dd>
+<dt id="term-apical">apical</dt>
+<dd>At the top of the plant.</dd>
+</dl>
+</div>
+<div class="section" id="download">
+<h3>1.5.5. download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h3>
+<p>If you want to create a link to a file to be downloaded you simply need:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>:download:`download myFile &lt;myFile.py&gt;`
+</pre></div>
+</div>
+<p>please <a class="reference download internal" href="_downloads/reST_intro.rst"><tt class="xref download docutils literal"><span class="pre">download</span> <span class="pre">thisFile</span></tt></a></p>
+</div>
+<div class="section" id="hlist">
+<h3>1.5.6. hlist<a class="headerlink" href="#hlist" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">hlist</span></tt> can be used to set a list in several columns:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. hlist::
+    :columns: 3
+
+    * first item
+    * second item
+    * 3d item
+    * 4th item
+    * 5th item
+</pre></div>
+</div>
+<table class="hlist"><tr><td><ul class="simple">
+<li>first item</li>
+<li>second item</li>
+</ul>
+</td><td><ul class="simple">
+<li>3d item</li>
+<li>4th item</li>
+</ul>
+</td><td><ul class="simple">
+<li>5th item</li>
+</ul>
+</td></tr></table>
+</div>
+<div class="section" id="footnote">
+<h3>1.5.7. footnote<a class="headerlink" href="#footnote" title="Permalink to this headline">¶</a></h3>
+<p>For footnotes, use <tt class="docutils literal"><span class="pre">[#name]_</span></tt> to mark the footnote location, and add the
+footnote body at the bottom of the document, after a ``Footnotes`` rubric
+heading, like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Some text that requires a footnote [#f1]_ .
+
+.. rubric:: Footnotes
+
+.. [#f1] Text to the first footnote.
+</pre></div>
+</div>
+<p>Here is an example of how to use auto-numbered footnotes <a class="footnote-reference" href="#id4" id="id2">[1]</a> <a class="footnote-reference" href="#id5" id="id3">[2]</a></p>
+</div>
+<div class="section" id="including-maths-and-equations-with-latex">
+<h3>1.5.8. Including Maths and Equations with Latex<a class="headerlink" href="#including-maths-and-equations-with-latex" title="Permalink to this headline">¶</a></h3>
+<p>The inclusion of latex equations is achieved with the directive <tt class="docutils literal"><span class="pre">..</span> <span class="pre">math::</span></tt>,
+however, before doing so, the extension <tt class="docutils literal"><span class="pre">sphinx.ext.pngmath</span></tt> has to be added
+in the <tt class="docutils literal"><span class="pre">config.py</span></tt> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">extensions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphinx.ext.pngmath&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, latex-math expressions can be included as:</p>
+<div class="math">
+<p><img src="_images/math/77e80baab0b9dafa039808919b9e20235ef4d1ab.png" alt="n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k"/></p>
+</div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The math markup can be used within RST files (to be parsed by Sphinx) but
+within your python&#8217;s docstring, the slashes need to be escaped !</p>
+<p class="last"><tt class="docutils literal"><span class="pre">:math:`\alpha`</span></tt> should therefore be written <tt class="docutils literal"><span class="pre">:math:`\\alpha`</span></tt> or put
+an &#8220;r&#8221; before the docstring</p>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>This should be the 1st footnote</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>This should be the 2nd footnote</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. A brief introduction to <em>re</em>Structured<em>Text</em></a><ul>
+<li><a class="reference internal" href="#introduction">1.1. Introduction</a></li>
+<li><a class="reference internal" href="#text-formatting">1.2. Text Formatting</a><ul>
+<li><a class="reference internal" href="#special-characters-and-inline-markups">1.2.1. Special characters and inline markups</a></li>
+<li><a class="reference internal" href="#headings">1.2.2. Headings</a></li>
+<li><a class="reference internal" href="#internal-and-external-links">1.2.3. Internal and external links</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#directives">1.3. Directives</a></li>
+<li><a class="reference internal" href="#boxes">1.4. Boxes</a><ul>
+<li><a class="reference internal" href="#literal-blocks">1.4.1. Literal Blocks</a></li>
+<li><a class="reference internal" href="#id1">1.4.2. Boxes</a></li>
+<li><a class="reference internal" href="#topic">1.4.3. Topic</a></li>
+<li><a class="reference internal" href="#sidebar">1.4.4. Sidebar</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#miscellaneous">1.5. Miscellaneous</a><ul>
+<li><a class="reference internal" href="#comments">1.5.1. Comments</a></li>
+<li><a class="reference internal" href="#substitutions">1.5.2. Substitutions</a></li>
+<li><a class="reference internal" href="#field-list">1.5.3. field list</a></li>
+<li><a class="reference internal" href="#glossary">1.5.4. glossary</a></li>
+<li><a class="reference internal" href="#download">1.5.5. download</a></li>
+<li><a class="reference internal" href="#hlist">1.5.6. hlist</a></li>
+<li><a class="reference internal" href="#footnote">1.5.7. footnote</a></li>
+<li><a class="reference internal" href="#including-maths-and-equations-with-latex">1.5.8. Including Maths and Equations with Latex</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to myFirstDoc&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="docInterface.html"
+                        title="next chapter">2. Documentation Example</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reST_intro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="docInterface.html" title="2. Documentation Example"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to myFirstDoc’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">myFirstDoc 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, yoMesmo.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
