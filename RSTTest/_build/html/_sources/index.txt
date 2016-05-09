@@ -12,5 +12,5 @@ Contents:
     :maxdepth: 2
     :numbered:
 
-    reST_intro
-    docInterface
+    reST_Intro
+    reST_AutoDirects

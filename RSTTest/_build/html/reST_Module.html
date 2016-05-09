@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Automodule example &mdash; myFirstDoc 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="myFirstDoc 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="3. Autofunction example" href="reST_Function.html" />
+    <link rel="prev" title="1. A brief introduction to reStructuredText" href="reST_Intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reST_Function.html" title="3. Autofunction example"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="reST_Intro.html" title="1. A brief introduction to reStructuredText"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">myFirstDoc 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyRST_Module">
+<span id="automodule-example"></span><h1>2. Automodule example<a class="headerlink" href="#module-pyRST_Module" title="Permalink to this headline">¶</a></h1>
+<p>This module illustrates how to write modules&#8217; documentation using docstring
+and Sphinx.</p>
+<dl class="class">
+<dt id="pyRST_Module.Class1">
+<em class="property">class </em><tt class="descclassname">pyRST_Module.</tt><tt class="descname">Class1</tt><a class="reference internal" href="_modules/pyRST_Module.html#Class1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyRST_Module.Class1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This class docstring shows how to use sphinx and rst syntax</p>
+<p>The first line is a brief explanation, which may be completed with a longer
+one. For instance to discuss about its methods. The only method here is
+<tt class="xref py py-func docutils literal"><span class="pre">function1()</span></tt>&#8216;s. The main idea is to document the class and methods&#8217;s
+arguments with</p>
+<ul>
+<li><p class="first"><strong>parameters</strong>, <strong>types</strong>, <strong>return</strong> and <strong>return types</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>:param arg1: description
+:param arg2: description
+:type arg1: type description
+:type arg2: type description
+:return: return description
+:rtype: the return type description
+</pre></div>
+</div>
+</li>
+<li><p class="first">and to provide section such as <strong>Example</strong> using the double commas
+syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>:Example:
+
+followed by a blank line!
+</pre></div>
+</div>
+</li>
+</ul>
+<p>which appears as follow:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>followed by a blank line</p>
+<ul>
+<li><p class="first">Finally special sections such as <strong>See also</strong>, <strong>Warnings</strong>, <strong>Notes</strong>
+use the sphinx syntax (<em>paragraph directives</em>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>.. seealso:: seealso bla
+.. warnings also:: warning also bla
+.. note:: note bla
+.. todo:: todo bla
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>There are many other Info fields but they may be redundant:</dt>
+<dd><ul class="first last simple">
+<li>param, parameter, arg, argument, key, keyword: Description of
+parameter.</li>
+<li>type: Type of a parameter.</li>
+<li>raises, raises exception, exception: That (and when) a specific
+exception is raised.</li>
+<li>var, ivar, cvar: Description of variable.</li>
+<li>returns, return: Description of the return value.</li>
+<li>rtype: Return type.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are many other directives such as versionadded, versionchange,
+rubric, centered, ... See the sphinx documentation for more details.</p>
+</div>
+<p>Here below is the results of the <tt class="xref py py-func docutils literal"><span class="pre">fucntion1()</span></tt>  docstrings.</p>
+<dl class="method">
+<dt id="pyRST_Module.Class1.func1">
+<tt class="descname">func1</tt><big>(</big><em>arg1</em>, <em>arg2</em>, <em>arg3</em><big>)</big><a class="reference internal" href="_modules/pyRST_Module.html#Class1.func1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyRST_Module.Class1.func1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns (arg1/arg2) + arg3</p>
+<p>This is a longer explanation, which may include math with latex syntax
+<img class="math" src="_images/math/ad59b6e24a4a00ac621801f8d7513d68be654ab5.png" alt="\alpha"/>.</p>
+<p>Then you need to provide optional section in this order (just to be
+consistent and have a uniform documentation. Nothing prevent you to
+switch the order):</p>
+<blockquote>
+<div><ul class="simple">
+<li>parameters using <tt class="docutils literal"><span class="pre">:param</span> <span class="pre">&lt;name&gt;:</span> <span class="pre">&lt;description&gt;</span></tt></li>
+<li>type of the parameters <tt class="docutils literal"><span class="pre">:type</span> <span class="pre">&lt;name&gt;:</span> <span class="pre">&lt;description&gt;</span></tt></li>
+<li>returns using <tt class="docutils literal"><span class="pre">:returns:</span> <span class="pre">&lt;description&gt;</span></tt></li>
+<li>examples (doctest)</li>
+<li>seealso using <tt class="docutils literal"><span class="pre">..</span> <span class="pre">seealso::</span> <span class="pre">text</span></tt></li>
+<li>notes using <tt class="docutils literal"><span class="pre">..</span> <span class="pre">note::</span> <span class="pre">text</span></tt></li>
+<li>warning using <tt class="docutils literal"><span class="pre">..</span> <span class="pre">warning::</span> <span class="pre">text</span></tt></li>
+<li>todo <tt class="docutils literal"><span class="pre">..</span> <span class="pre">todo::</span> <span class="pre">text</span></tt></li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt><strong>Advantages</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Uses sphinx markups, which will certainly be improved in future
+version</li>
+<li>Nice HTML output with the See Also, Note, Warnings directives</li>
+</ul>
+</dd>
+<dt><strong>Drawbacks</strong>:</dt>
+<dd><ul class="first last simple">
+<li>Just looking at the docstring, the parameter, type and  return
+sections do not appear nicely</li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arg1</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg2</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg3</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">arg1/arg2 +arg3</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int, float</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">MainClass1</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">function1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">can be useful to emphasize important feature</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><tt class="xref py py-class docutils literal"><span class="pre">MainClass2</span></tt></p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">arg2 must be non-zero.</p>
+</div>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Do do do</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyRST_Module.Class1.func2">
+<tt class="descname">func2</tt><big>(</big><em>arg1</em>, <em>arg2</em>, <em>arg3</em><big>)</big><a class="reference internal" href="_modules/pyRST_Module.html#Class1.func2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyRST_Module.Class1.func2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns arg1 + arg2 + arg3</p>
+<p>This is the 2nd function within the class Class1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arg1</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg2</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg3</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">arg1 + arg2 +arg3</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int, float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyRST_Module.Class2">
+<em class="property">class </em><tt class="descclassname">pyRST_Module.</tt><tt class="descname">Class2</tt><a class="reference internal" href="_modules/pyRST_Module.html#Class2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyRST_Module.Class2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This is the 2nd class of my not very useful module.</p>
+<p>The class implements two methods only.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>Nothing really fancy going on here.</p>
+<p>By the way, this class implements the Object&#8217;s, null argument constructor.</p>
+<dl class="method">
+<dt id="pyRST_Module.Class2.func1">
+<tt class="descname">func1</tt><big>(</big><em>arg1</em>, <em>arg2</em>, <em>arg3</em><big>)</big><a class="reference internal" href="_modules/pyRST_Module.html#Class2.func1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyRST_Module.Class2.func1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns inVar</p>
+<p>This is the 1st function of the class Class2. It returns a instance
+variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arg1</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg2</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg3</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>inVar</strong> (<em>float</em>) &#8211; the instance variable</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">inVar</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyRST_Module.Class2.func2">
+<tt class="descname">func2</tt><big>(</big><em>arg1</em>, <em>arg2</em>, <em>arg3</em><big>)</big><a class="reference internal" href="_modules/pyRST_Module.html#Class2.func2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyRST_Module.Class2.func2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns arg1 + arg2 + arg3</p>
+<p>This is the 2nd function within the class Class2. It returns the sum
+of its input parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arg1</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg2</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg3</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">arg1 + arg2 +arg3</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int, float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRST_Module.func1">
+<tt class="descclassname">pyRST_Module.</tt><tt class="descname">func1</tt><big>(</big><em>self</em>, <em>arg1</em>, <em>arg2</em>, <em>arg3</em><big>)</big><a class="reference internal" href="_modules/pyRST_Module.html#func1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyRST_Module.func1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns arg1 + arg2 + arg3</p>
+<p>This is the 1st function of the module. It returns the sum of its input
+parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arg1</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg2</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+<li><strong>arg3</strong> (<em>int, float,...</em>) &#8211; the first value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">arg1 + arg2 +arg3</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int, float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="reST_Intro.html"
+                        title="previous chapter">1. A brief introduction to <em>re</em>Structured<em>Text</em></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reST_Function.html"
+                        title="next chapter">3. Autofunction example</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reST_Module.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reST_Function.html" title="3. Autofunction example"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="reST_Intro.html" title="1. A brief introduction to reStructuredText"
+             >previous</a> |</li>
+        <li><a href="index.html">myFirstDoc 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, yoMesmo.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -6,6 +6,7 @@ description may be found on the
 `reST <http://docutils.sourceforge.net/rst.html>`_,
 `Sphinx <http://www.sphinx-doc.org>`_ and
 `Python <https://pythonhosted.org/an_example_pypi_project/sphinx.html>`_,
+`zh-sphinx <http://zh-sphinx-doc.readthedocs.io/en/latest/contents.html>`_,
 web pages of, as well as the notes of
 `thomas cokelaer <http://thomas-cokelaer.info/tutorials/sphinx/index.html>`_
 .
@@ -232,7 +233,7 @@ If you want to create a link to a file to be downloaded you simply need::
 
     :download:`download myFile <myFile.py>`
 
-please :download:`download thisFile <reST_intro.rst>`
+please :download:`download thisFile <reST_Intro.rst>`
 
 hlist
 -----

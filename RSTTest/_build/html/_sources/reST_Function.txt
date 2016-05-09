@@ -1,0 +1,23 @@
+Autofunction example
+********************
+
+This shows the documentation of specific module members in a semi-automatic
+way.
+
+2nd method of the 2nd class
+---------------------------
+.. automethod:: pyRST_Module.Class2.func2
+
+1st function
+------------
+.. autofunction:: pyRST_Module.func1
+
+1st Class
+---------
+.. autoclass:: pyRST_Module.Class1
+
+Whole module
+------------
+.. automodule:: pyRST_Module
+
+    .. class:: Class2
