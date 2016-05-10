@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>py3_press_prof Docstrings &mdash; py3_press_prof 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="py3_press_prof 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to py3_press_prof’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to py3_press_prof’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">py3_press_prof 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-py3_press_prof">
+<span id="py3-press-prof-docstrings"></span><h1>py3_press_prof Docstrings<a class="headerlink" href="#module-py3_press_prof" title="Permalink to this headline">¶</a></h1>
+<p>Measurement of the pressure profile across planar bilayers.</p>
+<p>This programs does statistics on the instantaneous realizations of the pressure
+profile of planar bilayers. The program assumes that the <strong>bilayer normal</strong>
+points in the <strong>z-direction</strong>.</p>
+<dl class="class">
+<dt id="py3_press_prof.GetPress">
+<em class="property">class </em><tt class="descclassname">py3_press_prof.</tt><tt class="descname">GetPress</tt><big>(</big><em>run_tens=[]</em>, <em>run_prof=[]</em>, <em>in_files=[]</em><big>)</big><a class="headerlink" href="#py3_press_prof.GetPress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coordinates data acquisition and setup of <strong>PressTens</strong> and <strong>PressProf</strong></p>
+<p>structures for each input file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>run_tens</strong> (<em>[PressTens]</em>) &#8211; List storing the pressure tensor data structures of all
+the input files.</li>
+<li><strong>run_prof</strong> (<em>[PressProf]</em>) &#8211; List storing the pressure profile data structures of all
+the input files.</li>
+<li><strong>in_files</strong> (<em>[string]</em>) &#8211; List of density-profile files to be analyzed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="py3_press_prof.PressProf">
+<em class="property">class </em><tt class="descclassname">py3_press_prof.</tt><tt class="descname">PressProf</tt><big>(</big><em>z=[]</em>, <em>prof=[]</em>, <em>prof_err=[]</em>, <em>mom0=[]</em>, <em>mom1=[]</em><big>)</big><a class="headerlink" href="#py3_press_prof.PressProf" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Pressure profile</strong> and its integral momenta across a planar bilayer.</p>
+<p>These quantities are independently stored as the 1D lists:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>z</strong> &#8211; Spatial discretization along the bilayer normal.</li>
+<li><strong>prof</strong> &#8211; Pressure profile across the bilayer:
+<img class="math" src="_images/math/541f42582b967f17eccd0d4cc0c48a7d64a90bfd.png" alt="\Gamma(z) = P_{zz}(z) - \left[P_{xx}(z) + P_{yy}(z)\right] / 2"/>.</li>
+<li><strong>prof_err</strong> &#8211; Standard deviation of the pressure profile across the
+bilayer.</li>
+<li><strong>mom0</strong> &#8211; 0th integral momenta across the bilayer:
+<img class="math" src="_images/math/f599a98eec0cf813ba73c37172bd467e5d55a173.png" alt="\int\mathrm{d}z\Gamma(z)"/>.</li>
+<li><strong>mom1</strong> &#8211; 1st integral momenta across the bilayer:
+<img class="math" src="_images/math/ee2849832e72962ff5e67ea96cdff1ec1fb1f44a.png" alt="\int\mathrm{d}z\Gamma(z)z"/>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>mom0[i]</strong> and <strong>mom1[i]</strong> store the corresponding integral momenta
+evaluated on the interval <strong>[z_{i}, z_{N-1}]</strong>.
+:type z: [float]
+:type prof: [float]
+:type prof_err: [float]
+:type mom0: [float]
+:type mom1: [float]</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="py3_press_prof.PressTens">
+<em class="property">class </em><tt class="descclassname">py3_press_prof.</tt><tt class="descname">PressTens</tt><big>(</big><em>tens=[]</em>, <em>tens_err=[]</em><big>)</big><a class="headerlink" href="#py3_press_prof.PressTens" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Pressure tensor</strong> across the bilayer.</p>
+<p>The components of the pressure tensor are stored in a 2D, nested list of N
+rows and 10 columns:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">height</th>
+<th class="head">P_{xx}</th>
+<th class="head">P_{yy}</th>
+<th class="head">P_{zz}</th>
+<th class="head">P_{xy}</th>
+<th class="head">P_{xz}</th>
+<th class="head">P_{yz}</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>z_{0}</td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-odd"><td>z_{1}</td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-even"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-odd"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-even"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-odd"><td>z_{N-1}</td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>where {x,y,z} are Cartesian coordinates and the numerical subindex in the
+1st column stands for the spatial discretization along the bilayer normal
+(which is assumed to point along the z-direction). A similar data structure
+stores the local standard deviation of each tensor component.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prof</strong> &#8211; Average value of the different pressure tensor components.</li>
+<li><strong>prof_err</strong> &#8211; Standard deviation of the pressure tensor components.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="py3_press_prof.main">
+<tt class="descclassname">py3_press_prof.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#py3_press_prof.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main sentinel for standalone and module usage.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to py3_press_prof&#8217;s documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reST_press_prof.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to py3_press_prof’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">py3_press_prof 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Israel Barragan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

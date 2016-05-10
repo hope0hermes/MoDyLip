@@ -1,55 +1,121 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #encoding-utf8
 """
+
+
 Measurement of the pressure profile across planar bilayers.
 
 This programs does statistics on the instantaneous realizations of the pressure
-profile of planar bilayers.
-"""
+profile of planar bilayers. The program assumes that the **bilayer normal**
+points in the **z-direction**.
 
+
+"""
 
 class PressProf():
     """
-    Different components of the stress profile across a planar bilayer.
+    **Pressure profile** and its integral momenta across a planar bilayer.
 
-    The stress components are stored in a 2D, nested list of N rows and 7
-    columns:
+    These quantities are independently stored as the 1D lists:
 
-    ====== ====== ====== ====== ====== ====== ======
-    height P_{xx} P_{yy} P_{zz} P_{xy} P_{xz} P_{yz}
-    ====== ====== ====== ====== ====== ====== ======
-    z_0    ``%f`` ``%f`` ``%f`` ``%f`` ``%f`` ``%f``
-    z_1    ``%f`` ``%f`` ``%f`` ``%f`` ``%f`` ``%f``
-     .        .      .      .      .      .      .
-     .        .      .      .      .      .      .
-     .        .      .      .      .      .      .
-    z_N    ``%f`` ``%f`` ``%f`` ``%f`` ``%f`` ``%f``
-    ====== ====== ====== ====== ====== ====== ======
+    :param z: Spatial discretization along the bilayer normal.
+    :param prof: Pressure profile across the bilayer:
+        :math:`\Gamma(z) = P_{zz}(z) - \left[P_{xx}(z) + P_{yy}(z)\\right] / 2`.
 
-    where {x,y,z} represent Cartesian coordinates and the numerical subindex
-    stands for the profile discretization along the bilayer normal (which is
-    assumed to point along the z-direction).
+    :param prof_err: Standard deviation of the pressure profile across the
+        bilayer.
+    :param mom0: 0th integral momenta across the bilayer:
+        :math:`\\int\\mathrm{d}z\\Gamma(z)`.
+    :param mom1: 1st integral momenta across the bilayer:
+        :math:`\\int\\mathrm{d}z\\Gamma(z)z`.
+
+    **mom0[i]** and **mom1[i]** store the corresponding integral momenta
+    evaluated on the interval **[z_{i}, z_{N-1}]**.
+    :type z: [float]
+    :type prof: [float]
+    :type prof_err: [float]
+    :type mom0: [float]
+    :type mom1: [float]
+
     """
-
-    def __init__(self, prof=[], prof_err=[], mom_0=[0.]*7, mom_1=[0.]*7):
-        """
-        :param prof: Average value of the different stress profile components.
-        :param prof_err: Standard deviation of the stress profile components.
-        :param mom_0: 0th integral momentum of the stress profile components.
-        :param mom_1: 1st integral momentum of the stress profile components.
-
-        :type prof: [[]] (2D nested list)
-        :type prof_std: [[]] (2D nested list)
-        :type mom_0: [] (list)
-        :type mom_1: [] (list)
-        """
-
+    def __init__(self, z=[], prof=[], prof_err=[], mom0=[], mom1=[]):
+        self.z = z
         self.prof = prof
+        self.prof_err = prof_err
+        self.mom0 = mom0
+        self.mom1 = mom1
+
+class PressTens():
+    """
+    **Pressure tensor** across the bilayer.
+
+    The components of the pressure tensor are stored in a 2D, nested list of N
+    rows and 10 columns:
+
+    ======= ====== ====== ====== ====== ====== ======
+    height  P_{xx} P_{yy} P_{zz} P_{xy} P_{xz} P_{yz}
+    ======= ====== ====== ====== ====== ====== ======
+    z_{0}   ``%f`` ``%f`` ``%f`` ``%f`` ``%f`` ``%f``
+    z_{1}   ``%f`` ``%f`` ``%f`` ``%f`` ``%f`` ``%f``
+      .        .      .      .      .      .      .
+      .        .      .      .      .      .      .
+      .        .      .      .      .      .      .
+    z_{N-1} ``%f`` ``%f`` ``%f`` ``%f`` ``%f`` ``%f``
+    ======= ====== ====== ====== ====== ====== ======
+
+    where {x,y,z} are Cartesian coordinates and the numerical subindex in the
+    1st column stands for the spatial discretization along the bilayer normal
+    (which is assumed to point along the z-direction). A similar data structure
+    stores the local standard deviation of each tensor component.
+
+    :param prof: Average value of the different pressure tensor components.
+    :param prof_err: Standard deviation of the pressure tensor components.
+    :type tens: [[float]]
+    :type tens_err: [[float]]
+
+    """
+    def __init__(self, tens=[], tens_err=[]):
+        self.tens = tens
+        self.tens_err = tens_err
+
+class GetPress():
+    """
+    **Data acquisition** and setup of PressTens and PressProf structures for
+
+    each input file.
+
+    :param run_tens: List storing the pressure tensor data structures of all
+        the input files.
+    :param run_prof: List storing the pressure profile data structures of all
+        the input files.
+    :param in_files: List of density-profile files to be analyzed.
+    :type run_tens: [PressTens]
+    :type run_prof: [PressProf]
+    :type in_files: [string]
+
+    """
+    def __init__(self, in_files):
+        """
+        Instantiation if all provided files exist.
+
+        """
+        for x in in_files:
+            if(not os.path.isfile(x)):
+                print('{:s} is not a file\n'.format(x))
+                exit()
+        self.run_tens = []
+        self.run_prof = []
+        self.in_files = in_files
 
 def main():
     """
     Main sentinel for standalone and module usage.
-    """
 
-if __name__ == 'main':
+    """
+    ctrl = GetPress(argv[1:])
+    for x in ctrl.in_files: print(x)
+
+if __name__ == '__main__':
+    from sys import argv
+    import os
     main()
