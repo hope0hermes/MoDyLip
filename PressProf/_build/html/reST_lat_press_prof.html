@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lateral pressure profile &mdash; py3_curv_from_press_prof 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="py3_curv_from_press_prof 0.1 documentation" href="index.html" />
+    <link rel="next" title="Pressure tensor" href="reST_press_tens.html" />
+    <link rel="prev" title="Spontaneous curvature from lateral pressure profile" href="reST_curv_from_press_prof.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reST_press_tens.html" title="Pressure tensor"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="reST_curv_from_press_prof.html" title="Spontaneous curvature from lateral pressure profile"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">py3_curv_from_press_prof 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="lateral-pressure-profile">
+<h1>Lateral pressure profile<a class="headerlink" href="#lateral-pressure-profile" title="Permalink to this headline">¶</a></h1>
+<p>Evaluation of the equilibrium properties of the lateral pressure profile across
+a planar bilayer. These include the average profile and its standard deviation
+over a set of instantaneous realizations, as well as its integral momenta.</p>
+<dl class="class">
+<dt id="py3_lat_press_prof.LatPressProf">
+<em class="property">class </em><tt class="descclassname">py3_lat_press_prof.</tt><tt class="descname">LatPressProf</tt><big>(</big><em>tens_file</em><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Lateral pressure profile</strong>, <img class="math" src="_images/math/7e0c9e2c94157888764507b5789c73f552f478f3.png" alt="\Gamma(z)"/>, across a planar bilayer.</p>
+<p>It is assumed that the bilayer normal lies along the <img class="math" src="_images/math/84d7271dd9e78c1e05d6c3c6ecb60309ef7dfc73.png" alt="z"/>-axis, so that the
+definition of <img class="math" src="_images/math/7e0c9e2c94157888764507b5789c73f552f478f3.png" alt="\Gamma(z)"/> reduces to:</p>
+<p><img class="math" src="_images/math/541f42582b967f17eccd0d4cc0c48a7d64a90bfd.png" alt="\Gamma(z) = P_{zz}(z) - \left[P_{xx}(z) + P_{yy}(z)\right] / 2"/>,</p>
+<p>where <img class="math" src="_images/math/5aca7cef079c1b89ecff927df8be1c9a9c561520.png" alt="P_{\alpha\alpha}(z)"/> are the diagonal components of the pressure tensor, <img class="math" src="_images/math/566d38d088f022fcf67ae5524f64a364ed51f600.png" alt="P_{\alpha\beta}(z)"/>,
+across the bilayer
+<img class="math" src="_images/math/8a47af1de4278d66afed296640533abcc8502862.png" alt="\left(\mathrm{with}\,\alpha,\beta \in \{x,y,z\}\right)"/>.</p>
+<p>The equilibrium properties of <img class="math" src="_images/math/7e0c9e2c94157888764507b5789c73f552f478f3.png" alt="\Gamma(z)"/> are evaluated from its ensemble
+average, over a set of realizations (<strong>samples</strong>), at different time steps.
+These realizations should be provided as an input data file, <strong>tens_file</strong>,
+with the following format:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">height</th>
+<th class="head"><img class="math" src="_images/math/bb8c856f32389d753d50d2e60fcbf99c8ebf5f96.png" alt="P_{xx}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/97c9e5e0cd3587713d8ccde9af99ef96d122cf16.png" alt="P_{yy}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/7ea47e3e1e780554d81029bea83ee262bbc96ea2.png" alt="P_{zz}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/748eaf89a2bf7a3c446b87421d1f6023e798445b.png" alt="P_{xy}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/37296e63e3345d159b9269d1ac06ce5c6072457b.png" alt="P_{xz}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/b28c5c42ca7c653f00ebe0eed95a6130dac42034.png" alt="P_{yz}(z)"/></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td colspan="7"><tt class="docutils literal"><span class="pre">#</span></tt> <tt class="docutils literal"><span class="pre">Commented</span> <span class="pre">or</span> <span class="pre">labeled</span> <span class="pre">lines</span> <span class="pre">must</span> <span class="pre">start</span> <span class="pre">with</span></tt> <tt class="docutils literal"><span class="pre">`#`</span></tt></td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/785b5b905758c4e03bf0b725e14e5ea863fc8ff3.png" alt="z_{0}"/></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/e614bdcd48e176ec8db64bf3624eb2efbd02bb31.png" alt="z_{1}"/></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-odd"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-even"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-odd"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/03c23fd18be7bea3cda44888f1c6a6ee41ee06f9.png" alt="z_{N-1}"/></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-odd"><td colspan="7"><tt class="docutils literal"><span class="pre">#</span></tt> <tt class="docutils literal"><span class="pre">Every</span> <span class="pre">sample</span> <span class="pre">terminates</span> <span class="pre">with</span> <span class="pre">two</span> <span class="pre">blank</span> <span class="pre">lines</span></tt></td>
+</tr>
+<tr class="row-even"><td colspan="7"><tt class="docutils literal"><span class="pre">\n</span></tt></td>
+</tr>
+<tr class="row-odd"><td colspan="7"><tt class="docutils literal"><span class="pre">\n</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>where the first column stores the homogeneous, spatial discretization of the
+simulation box along the bilayer normal, i.e., it consist of an array of
+<img class="math" src="_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> <strong>slabs</strong> of <strong>width</strong> <img class="math" src="_images/math/8edc5acdcde9d92411163a59f0c5d6b2b9db3a5e.png" alt="\Delta z"/>. Furthermore, it is assumed
+that, for each realization, the bilayer&#8217;s midplane lies exactly at the
+middle of the simulation box, <img class="math" src="_images/math/a6386fda11e4504e8e05a801391ac538628a717a.png" alt="z = z_{N/2}"/>.</p>
+<p>The creation of <strong>PressProf</strong> objects requires passing <strong>tens_file</strong> as a
+unique argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">press_prof_object</span> <span class="o">=</span> <span class="n">PressProf</span><span class="p">(</span><span class="s1">&#39;pressure_tensor_file.ext&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This returns an object containing the average pressure profile and its
+local standard deviations, <img class="math" src="_images/math/0efd90722d90484fc8a613e02c2272bfd099b4ce.png" alt="\sigma_{\Gamma}(z)"/>, stored in <strong>prof</strong> and <strong>prof_err</strong>,
+respectively.</p>
+<p>The integral momenta of <img class="math" src="_images/math/7e0c9e2c94157888764507b5789c73f552f478f3.png" alt="\Gamma(z)"/> are evaluated upon request, by calling the
+method <strong>get_momentum(</strong><em>int(n)</em><strong>)</strong>. This returns an array of length
+<strong>slabs</strong>, whose <em>i-th</em> entry is the integral momentum of degree <em>n</em>,
+centered at <img class="math" src="_images/math/9a55547aee2717d9e5fd7ba3236a22fa23a62263.png" alt="z_{i}\in[z_{0}, z_{N-1}]"/> and evaluated over the entire
+simulation box.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>height</strong> (<em>[float]</em>) &#8211; Discretization of the simulation box along the bilayer
+normal.</li>
+<li><strong>prof</strong> (<em>[float]</em>) &#8211; Lateral pressure profile across the bilayer: <img class="math" src="_images/math/541f42582b967f17eccd0d4cc0c48a7d64a90bfd.png" alt="\Gamma(z) = P_{zz}(z) - \left[P_{xx}(z) + P_{yy}(z)\right] / 2"/>.</li>
+<li><strong>prof_err</strong> (<em>[float]</em>) &#8211; Standard deviation of of the lateral pressure profile:
+<img class="math" src="_images/math/0efd90722d90484fc8a613e02c2272bfd099b4ce.png" alt="\sigma_{\Gamma}(z)"/>.</li>
+<li><strong>samples</strong> (<em>int</em>) &#8211; Number of instantaneous realization of the pressure-tensor
+in the input file.</li>
+<li><strong>slabs</strong> (<em>int</em>) &#8211; Number of slabs across the bilayer normal: <img class="math" src="_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/>.</li>
+<li><strong>slab_width</strong> (<em>float</em>) &#8211; Width of the discretization slabs: <img class="math" src="_images/math/8edc5acdcde9d92411163a59f0c5d6b2b9db3a5e.png" alt="\Delta z"/>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>tens_file</em><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization is only possible for a properly formated input file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_momenta</strong> (<em>[[float]]</em>) &#8211; Accumulator of integral momenta arrays: the 1st call
+to <strong>get_momentum()</strong> with the integer argument <em>n</em> will be
+appended to the <em>i-th</em> entry of this accumulator. Subsequent calls
+to <strong>get_momentum()</strong> with the same argument, <em>n</em>, won&#8217;t re-evaluate
+the integral momentum again, but will refer to the <em>i-th</em> entry of
+this accumulator.</li>
+<li><strong>_momenta_index</strong> (<em>{int: int}</em>) &#8211; Link to the array of integral momenta of degree
+<em>n</em> in the <strong>_momenta</strong> accumulator.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf._check_tens_file">
+<tt class="descname">_check_tens_file</tt><big>(</big><em>tens_file</em><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf._check_tens_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the existence and proper format of the input file.</p>
+<p>Returns the validated name of the input file in case it exist and has
+the expected format. On the contrary, the program is terminated with an
+error message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tens_file</strong> (<em>string</em>) &#8211; Input file with the instantaneous realizations of the
+pressure tensor.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tens_file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf._evaluate_momentum">
+<tt class="descname">_evaluate_momentum</tt><big>(</big><em>grade</em><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf._evaluate_momentum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the integral momentum of degree <strong>grade</strong>.</p>
+<p>The <em>i-th</em> entry of the auxiliary array, <strong>momenta</strong>, stores the
+integral momenta of degree <strong>grade</strong>, centered at
+<img class="math" src="_images/math/9a55547aee2717d9e5fd7ba3236a22fa23a62263.png" alt="z_{i}\in[z_{0}, z_{N-1}]"/> and evaluated over the entire
+simulation box. When all the centered momenta have been computed, they
+are appended to the instance accumulator <strong>_momenta</strong> and the
+corresponding tuple <img class="math" src="_images/math/5422fd0752bb15f42580d45c8e935d1a1b76a0e6.png" alt="\{index, grade\}"/> is updated to
+<strong>_momenta_index</strong>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>grade</strong> (<em>int</em>) &#8211; Grade of the requested integral momentum.</li>
+<li><strong>momenta</strong> (<em>[float]</em>) &#8211; Array storing the integral momenta of degree <em>grade</em>,
+centered at <img class="math" src="_images/math/d8087a7b2d15d72b8efb33913e967939ff08e82a.png" alt="z_{i}\in\{z_{N/2}, ..., z_{N-1}\}"/>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf._get_1st_sample">
+<tt class="descname">_get_1st_sample</tt><big>(</big><em>tens_stream</em><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf._get_1st_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the 1st instantaneous realization of the pressure profile.</p>
+<p>Sets the number of <strong>slabs</strong> in the pressure profile and the
+discretization along the bilayer normal (<strong>slab_width</strong>). Also provides
+a 1st approximation of the local mean, which allows the evaluation of
+local variances in a single file-read, without round-off errors due to
+the floating-point arithmetic of large numbers. The local sum of linear
+and squared deviations from the approximated mean are also initialized.</p>
+<p>Finally, the input stream to the input data file is re-winded before
+termination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tens_stream</strong> (<em>text_stream</em>) &#8211; Stream to the input data file.</li>
+<li><strong>mean</strong> (<em>[float]</em>) &#8211; Guess of the local mean values.</li>
+<li><strong>sum_lin</strong> (<em>[float]</em>) &#8211; Zeroed sum of linear deviations from the guessed mean.</li>
+<li><strong>sum_sqr</strong> (<em>[float]</em>) &#8211; Zeroed sum of squared deviations from the guessed mean.</li>
+<li><strong>blanks</strong> (<em>int</em>) &#8211; Consecutive blank lines in the input stream. Two blanks
+separate individual profile realizations.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mean, sum_lin, sum_sqr</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">[float], [float], [float]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf._get_momenta_index">
+<tt class="descname">_get_momenta_index</tt><big>(</big><em>grade</em><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf._get_momenta_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of the integral momenta of degree <strong>grade</strong> in <strong>_momenta</strong>.</p>
+<p>If <strong>grade</strong> is found in <strong>_momenta_index</strong>, then the corresponding
+<strong>index</strong> and a &#8216;True&#8217; <strong>Flag</strong> are returned. Otherwise
+<strong>index</strong>=<em>-1</em> and <strong>Flag</strong>=&#8217;False&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grade</strong> (<em>int</em>) &#8211; Grade of the requested integral momentum.</li>
+<li><strong>index</strong> (<em>int</em>) &#8211; Index of the requested integral momentum in the _momenta
+array.</li>
+<li><strong>FLAG</strong> (<em>boolean</em>) &#8211; Flag indicating if the requested momentum was found.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">index, FLAG</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int, boolean</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf._get_profile">
+<tt class="descname">_get_profile</tt><big>(</big><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf._get_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the lateral density profile and its statistical error.</p>
+<p>Having the sum of linear and square lateral pressure profiles
+(<strong>sum_lin</strong> and <strong>sum_sqr</strong>, respectively) as well an estimation of its
+local mean values (<strong>mean</strong>), the average density profile (<strong>prof</strong>) and
+its unbiased standard deviation (<strong>prof_err</strong>) are computed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mean</strong> (<em>[float]</em>) &#8211; Guess of the local pressure profile mean.</li>
+<li><strong>sum_lin</strong> (<em>[float]</em>) &#8211; Sum of linear deviations from the guessed mean.</li>
+<li><strong>sum_sqr</strong> (<em>[float]</em>) &#8211; Sum of squared deviations from the guessed mean.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf._get_samples">
+<tt class="descname">_get_samples</tt><big>(</big><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf._get_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read instantaneous realizations of the pressure profile from input file.</p>
+<p>Set the number of <strong>samples</strong> to be analyzed. Also sets the local sums
+linear and squared deviations from a tentative mean (obtained from the
+1st profile sample), which are needed for the evaluation of the local
+averages and standard deviations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mean</strong> (<em>[float]</em>) &#8211; Guess of the local mean values.</li>
+<li><strong>sum_lin</strong> (<em>[float]</em>) &#8211; Sum of linear deviations from the guessed mean.</li>
+<li><strong>sum_sqr</strong> (<em>[float]</em>) &#8211; Sum of squared deviations from the guessed mean.</li>
+<li><strong>tens_stream</strong> (<em>text_stream</em>) &#8211; Stream to the input data file.</li>
+<li><strong>blanks</strong> (<em>int</em>) &#8211; Consecutive blank lines in the input stream. Two blanks
+separate individual profile realizations.</li>
+<li><strong>slab</strong> (<em>int</em>) &#8211; Location index across the bilayer discretization.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mean, sum_lin, sum_sqr</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">[float], [float], [float]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_lat_press_prof.LatPressProf.get_momentum">
+<tt class="descname">get_momentum</tt><big>(</big><em>grade</em><big>)</big><a class="headerlink" href="#py3_lat_press_prof.LatPressProf.get_momentum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the requested integral momenta from <strong>_momenta</strong>.</p>
+<p>If the integral momenta of degree <strong>grade</strong> have not been computed,
+i.e., <strong>grade</strong> is not indexed in <strong>_momenta_index</strong>,
+<strong>_index</strong>=<em>-1</em> and <strong>_Flag</strong>=<em>False</em>, then the requested
+momenta are computed and appended to the momenta accumulator,
+<strong>_momenta</strong>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grade</strong> &#8211; Grade of the requested integral momenta.</li>
+<li><strong>_index</strong> (<em>int</em>) &#8211; Link to the array of integral momenta of degree
+<strong>grade</strong> in the _momenta accumulator.</li>
+<li><strong>_FLAG</strong> (<em>boolean</em>) &#8211; Boolean flag indicating if the requested integral
+momentum as to be computed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Integral momenta of degree <strong>grade</strong> from the <strong>_momenta</strong>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">[float]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="reST_curv_from_press_prof.html"
+                        title="previous chapter">Spontaneous curvature from lateral pressure profile</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reST_press_tens.html"
+                        title="next chapter">Pressure tensor</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reST_lat_press_prof.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reST_press_tens.html" title="Pressure tensor"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="reST_curv_from_press_prof.html" title="Spontaneous curvature from lateral pressure profile"
+             >previous</a> |</li>
+        <li><a href="index.html">py3_curv_from_press_prof 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Israel Barragan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

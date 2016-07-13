@@ -48,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'py3_press_prof'
+project = u'py3_curv_from_press_prof'
 copyright = u'2016, Israel Barragan'
 
 # The version info for the project you're documenting, acts as replacement for

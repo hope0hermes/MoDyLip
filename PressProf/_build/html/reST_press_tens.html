@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pressure tensor &mdash; py3_curv_from_press_prof 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="py3_curv_from_press_prof 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Lateral pressure profile" href="reST_lat_press_prof.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reST_lat_press_prof.html" title="Lateral pressure profile"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">py3_curv_from_press_prof 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pressure-tensor">
+<h1>Pressure tensor<a class="headerlink" href="#pressure-tensor" title="Permalink to this headline">¶</a></h1>
+<p>Evaluation of the average pressure tensor across a planar bilayer and its
+standard deviation, from a set of instantaneous realizations.</p>
+<dl class="class">
+<dt id="py3_press_tens.PressTens">
+<em class="property">class </em><tt class="descclassname">py3_press_tens.</tt><tt class="descname">PressTens</tt><big>(</big><em>tens_file</em><big>)</big><a class="headerlink" href="#py3_press_tens.PressTens" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Pressure tensor</strong>, <img class="math" src="_images/math/566d38d088f022fcf67ae5524f64a364ed51f600.png" alt="P_{\alpha\beta}(z)"/>, across a planar bilayer.</p>
+<p>It is assumed that the bilayer normal lies along the <img class="math" src="_images/math/84d7271dd9e78c1e05d6c3c6ecb60309ef7dfc73.png" alt="z"/>-axis.</p>
+<p>The equilibrium properties of <img class="math" src="_images/math/566d38d088f022fcf67ae5524f64a364ed51f600.png" alt="P_{\alpha\beta}(z)"/> are evaluated from its ensemble
+average, over a set of realizations (<strong>samples</strong>), at different time steps.
+These realizations should be provided as an input data file, <strong>tens_file</strong>,
+with the following format:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">height</th>
+<th class="head"><img class="math" src="_images/math/bb8c856f32389d753d50d2e60fcbf99c8ebf5f96.png" alt="P_{xx}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/97c9e5e0cd3587713d8ccde9af99ef96d122cf16.png" alt="P_{yy}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/7ea47e3e1e780554d81029bea83ee262bbc96ea2.png" alt="P_{zz}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/748eaf89a2bf7a3c446b87421d1f6023e798445b.png" alt="P_{xy}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/37296e63e3345d159b9269d1ac06ce5c6072457b.png" alt="P_{xz}(z)"/></th>
+<th class="head"><img class="math" src="_images/math/b28c5c42ca7c653f00ebe0eed95a6130dac42034.png" alt="P_{yz}(z)"/></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td colspan="7"><tt class="docutils literal"><span class="pre">#</span></tt> <tt class="docutils literal"><span class="pre">Commented</span> <span class="pre">or</span> <span class="pre">labeled</span> <span class="pre">lines</span> <span class="pre">must</span> <span class="pre">start</span> <span class="pre">with</span></tt> <tt class="docutils literal"><span class="pre">`#`</span></tt></td>
+</tr>
+<tr class="row-odd"><td><img class="math" src="_images/math/785b5b905758c4e03bf0b725e14e5ea863fc8ff3.png" alt="z_{0}"/></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/e614bdcd48e176ec8db64bf3624eb2efbd02bb31.png" alt="z_{1}"/></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-odd"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-even"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-odd"><td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+<td>.</td>
+</tr>
+<tr class="row-even"><td><img class="math" src="_images/math/03c23fd18be7bea3cda44888f1c6a6ee41ee06f9.png" alt="z_{N-1}"/></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">%f</span></tt></td>
+</tr>
+<tr class="row-odd"><td colspan="7"><tt class="docutils literal"><span class="pre">#</span></tt> <tt class="docutils literal"><span class="pre">Every</span> <span class="pre">sample</span> <span class="pre">terminates</span> <span class="pre">with</span> <span class="pre">two</span> <span class="pre">blank</span> <span class="pre">lines</span></tt></td>
+</tr>
+<tr class="row-even"><td colspan="7"><tt class="docutils literal"><span class="pre">\n</span></tt></td>
+</tr>
+<tr class="row-odd"><td colspan="7"><tt class="docutils literal"><span class="pre">\n</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>where the first column stores the homogeneous, spatial discretization of the
+simulation box along the bilayer normal, i.e., it consist of an array of
+<img class="math" src="_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> <strong>slabs</strong> of <strong>width</strong> <img class="math" src="_images/math/8edc5acdcde9d92411163a59f0c5d6b2b9db3a5e.png" alt="\Delta z"/>, and where Greek sub-indexes,
+<img class="math" src="_images/math/af80aedde45a97eeb7e6a3468532868365810d60.png" alt="\mathrm{with}\,\alpha,\beta \in \{x,y,z\}"/>, represent the
+corresponding components of the pressure tensor. Furthermore, it is assumed
+that, for each realization, the bilayer&#8217;s midplane lies exactly at the
+middle of the simulation box, <img class="math" src="_images/math/a6386fda11e4504e8e05a801391ac538628a717a.png" alt="z = z_{N/2}"/>.</p>
+<p>where the first column stores the spatial discretization along the bilayer
+normal, consisting of <img class="math" src="_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> <strong>slabs</strong> of <strong>width</strong> <img class="math" src="_images/math/8edc5acdcde9d92411163a59f0c5d6b2b9db3a5e.png" alt="\Delta z"/>.</p>
+<p>The creation of <strong>TensProf</strong> objects requires passing <strong>tens_file</strong> as a
+unique argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">tens_prof_object</span> <span class="o">=</span> <span class="n">TensProf</span><span class="p">(</span><span class="s1">&#39;pressure_tensor_file.ext&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This returns an object containing the average pressure tensor and its
+local standard deviations, <img class="math" src="_images/math/aebcfc41b72f3464b1471d2702bd956d209b0656.png" alt="\sigma_{P_{\alpha\beta}(z)}"/>, stored in <strong>tens</strong> and <strong>tens_err</strong>,
+respectively.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>height</strong> (<em>[float]</em>) &#8211; Spatial discretization along the bilayer normal.</li>
+<li><strong>tens</strong> (<em>[[float]]</em>) &#8211; Pressure tensor across the bilayer: <img class="math" src="_images/math/566d38d088f022fcf67ae5524f64a364ed51f600.png" alt="P_{\alpha\beta}(z)"/>.</li>
+<li><strong>tens_err</strong> (<em>[[float]]</em>) &#8211; Standard deviation of of the pressure tensor: <img class="math" src="_images/math/aebcfc41b72f3464b1471d2702bd956d209b0656.png" alt="\sigma_{P_{\alpha\beta}(z)}"/>.</li>
+<li><strong>samples</strong> (<em>int</em>) &#8211; Number of instantaneous pressure-tensor samples in the input
+file.</li>
+<li><strong>slabs</strong> (<em>int</em>) &#8211; Number of slabs across the bilayer normal: <img class="math" src="_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/>.</li>
+<li><strong>slab_width</strong> (<em>float</em>) &#8211; Width of the discretization slabs: <img class="math" src="_images/math/8edc5acdcde9d92411163a59f0c5d6b2b9db3a5e.png" alt="\Delta z"/>.</li>
+<li><strong>comps</strong> (<em>int</em>) &#8211; Number of independent components in the pressure tensor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="py3_press_tens.PressTens.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>tens_file</em><big>)</big><a class="headerlink" href="#py3_press_tens.PressTens.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization is only possible if the input file exists and has the</p>
+<p>expected format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_press_tens.PressTens._check_tens_file">
+<tt class="descname">_check_tens_file</tt><big>(</big><em>tens_file</em><big>)</big><a class="headerlink" href="#py3_press_tens.PressTens._check_tens_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the existence and proper format of the input file.</p>
+<p>Returns the validated name of the input file in case it exist and has
+the expected format. On the contrary, the program is terminated with an
+error message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tens_file</strong> (<em>string</em>) &#8211; Input file with the instantaneous realizations of the
+pressure tensor.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tens_file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_press_tens.PressTens._get_1st_sample">
+<tt class="descname">_get_1st_sample</tt><big>(</big><em>tens_stream</em><big>)</big><a class="headerlink" href="#py3_press_tens.PressTens._get_1st_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the 1st instantaneous realization of the pressure tensor.</p>
+<p>Sets the number of <strong>slabs</strong> in the pressure tensor and the
+discretization along the bilayer normal (<strong>slab_width</strong>). Also provides
+a 1st approximation of the local mean, which allows the evaluation of
+local variances in a single file-read, without round-off errors due to
+the floating-point arithmetic of large numbers. The local sum of linear
+and squared deviations from the approximated mean are also initialized.</p>
+<p>Finally, the input stream to the input data file is re-winded before
+termination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tens_stream</strong> (<em>text_stream</em>) &#8211; Stream to the input data file.</li>
+<li><strong>mean</strong> (<em>[float]</em>) &#8211; Guess of the local mean values.</li>
+<li><strong>sum_lin</strong> (<em>[float]</em>) &#8211; Zeroed sum of linear deviations from the guessed mean.</li>
+<li><strong>sum_sqr</strong> (<em>[float]</em>) &#8211; Zeroed sum of squared deviations from the guessed mean.</li>
+<li><strong>blanks</strong> (<em>int</em>) &#8211; Consecutive blank lines in the input stream. Two blanks
+separate individual profile realizations.</li>
+<li><strong>comps</strong> (<em>int</em>) &#8211; Number of independent components in the pressure tensor.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mean, sum_lin, sum_sqr</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">[float], [float], [float]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_press_tens.PressTens._get_profile">
+<tt class="descname">_get_profile</tt><big>(</big><big>)</big><a class="headerlink" href="#py3_press_tens.PressTens._get_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the average pressure tensor and its statistical error.</p>
+<p>Having the sum of linear and square pressure tensor components (
+<strong>sum_lin</strong> and <strong>sum_sqr</strong>, respectively) as well as an estimation of
+its local mean values (<strong>mean</strong>), the average components of the pressure
+tensor (<strong>tens</strong>) and its unbiased standard deviation (<strong>tens_err</strong>) are
+computed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mean</strong> (<em>[float]</em>) &#8211; Guess of the local pressure profile mean.</li>
+<li><strong>sum_lin</strong> (<em>[float]</em>) &#8211; Sum of linear deviations from the guessed mean.</li>
+<li><strong>sum_sqr</strong> (<em>[float]</em>) &#8211; Sum of squared deviations from the guessed mean.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_press_tens.PressTens._get_samples">
+<tt class="descname">_get_samples</tt><big>(</big><big>)</big><a class="headerlink" href="#py3_press_tens.PressTens._get_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read instantaneous realizations of the pressure tensor from input file.</p>
+<p>Set the number of <strong>samples</strong> to be analyzed. Also sets the local sums
+linear and squared deviations from a tentative mean (obtained from the
+1st profile sample), which are needed for the evaluation of the local
+averages and standard deviations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mean</strong> (<em>[float]</em>) &#8211; Guess of the local mean values.</li>
+<li><strong>sum_lin</strong> (<em>[float]</em>) &#8211; Sum of linear deviations from the guessed mean.</li>
+<li><strong>sum_sqr</strong> (<em>[float]</em>) &#8211; Sum of squared deviations from the guessed mean.</li>
+<li><strong>tens_stream</strong> (<em>text_stream</em>) &#8211; Stream to the input data file.</li>
+<li><strong>blanks</strong> (<em>int</em>) &#8211; Consecutive blank lines in the input stream. Two blanks
+separate individual profile realizations.</li>
+<li><strong>slab</strong> (<em>int</em>) &#8211; Location index across the bilayer discretization.</li>
+<li><strong>comps</strong> (<em>int</em>) &#8211; Number of independent components in the pressure tensor.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mean, sum_lin, sum_sqr</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">[float], [float], [float]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="reST_lat_press_prof.html"
+                        title="previous chapter">Lateral pressure profile</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reST_press_tens.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reST_lat_press_prof.html" title="Lateral pressure profile"
+             >previous</a> |</li>
+        <li><a href="index.html">py3_curv_from_press_prof 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Israel Barragan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

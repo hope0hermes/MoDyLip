@@ -17,6 +17,10 @@ Introduction
 *re*\ Structured\ *Text* syntax provides an easy-to-read,
 what-you-see-is-what-you-get plaintext markup syntax and parser system.
 
+Before start quit the documentation, the **sphinx-quickstart** script has to be
+called in order to setup the source directory as well as to create the default
+configuration file (*conf.py*)
+
 Text Formatting
 ===============
 
