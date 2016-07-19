@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #encoding-utf8
 """
-8th tutorial from the series:
+9th tutorial from the series:
 
 https://pythonprogramming.net/data-analysis-python-pandas-tutorial-introduction/
 
@@ -42,7 +42,8 @@ def get_hpi(key = '', abb = []):
     hpi_name = 'dat_hpi_per_state.csv'
     if(os.path.isfile(hpi_name)):
         print('\nReading data from ' + hpi_name)
-        hpi = pd.read_csv(hpi_name, index_col = 0, header = 0)
+        hpi = pd.read_csv(hpi_name, index_col = 0, header = 0,
+            parse_dates = True)
     else:
         print('\nLoading HPI data from Quandl')
         hpi = pd.DataFrame()
@@ -72,7 +73,8 @@ def get_hpi_benchmark(key = ''):
     label = 'HPI_AVG'
     if(os.path.isfile(hpi_name)):
         print('\nReading national average HPI from Quandl')
-        mnt = pd.read_csv(hpi_name, index_col = 0, header = 0)
+        mnt = pd.read_csv(hpi_name, index_col = 0, header = 0,
+            parse_dates = True)
     else:
         print('\nDownloading national average HPI from Quandl')
         mnt = qd.get('FMAC/HPI_USA', authtoken = key)
@@ -81,6 +83,21 @@ def get_hpi_benchmark(key = ''):
         mnt[label] = 100 * (mnt[label] - mnt[label][0]) / mnt[label][0]
         mnt.to_csv(hpi_name)
     return(mnt)
+
+def resample_for_state(hpi, state = ''):
+    """
+    Resample data for a single state.
+    """
+    print(hpi[state].head())
+    st_1yr = hpi[state].resample('4A').mean()
+
+    fig = plt.figure()
+    ax1 = plt.subplot2grid((1,1), (0,0))
+    hpi[state].plot(ax = ax1, label = 'Monthly HPI for ' + state)
+    st_1yr.plot(ax = ax1, label = 'Yearly HPI for ' + state)
+    plt.legend(loc = 4)
+    plt.show()
+
 
 def main():
     key = get_quandl_key()
@@ -93,12 +110,16 @@ def main():
     print(hpi_corr)
     print('\nHPI correlation (Summary)')
     print(hpi_corr.describe())
+    # Resample 'TX' data, annually.
+    resample_for_state(hpi, state = 'TX')
 
+    """
     fig = plt.figure()
     ax1 = plt.subplot2grid((1,1), (0,0))
     hpi.plot(ax = ax1)
     hpi_avg.plot(ax = ax1, color = 'k', linewidth = 10)
     plt.show()
+    """
 
 if __name__ == '__main__':
     import pandas as pd

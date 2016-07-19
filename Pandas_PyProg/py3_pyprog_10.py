@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #encoding-utf8
 """
-8th tutorial from the series:
+10th tutorial from the series:
 
 https://pythonprogramming.net/data-analysis-python-pandas-tutorial-introduction/
 
@@ -42,7 +42,8 @@ def get_hpi(key = '', abb = []):
     hpi_name = 'dat_hpi_per_state.csv'
     if(os.path.isfile(hpi_name)):
         print('\nReading data from ' + hpi_name)
-        hpi = pd.read_csv(hpi_name, index_col = 0, header = 0)
+        hpi = pd.read_csv(hpi_name, index_col = 0, header = 0,
+            parse_dates = True)
     else:
         print('\nLoading HPI data from Quandl')
         hpi = pd.DataFrame()
@@ -72,7 +73,8 @@ def get_hpi_benchmark(key = ''):
     label = 'HPI_AVG'
     if(os.path.isfile(hpi_name)):
         print('\nReading national average HPI from Quandl')
-        mnt = pd.read_csv(hpi_name, index_col = 0, header = 0)
+        mnt = pd.read_csv(hpi_name, index_col = 0, header = 0,
+            parse_dates = True)
     else:
         print('\nDownloading national average HPI from Quandl')
         mnt = qd.get('FMAC/HPI_USA', authtoken = key)
@@ -81,6 +83,63 @@ def get_hpi_benchmark(key = ''):
         mnt[label] = 100 * (mnt[label] - mnt[label][0]) / mnt[label][0]
         mnt.to_csv(hpi_name)
     return(mnt)
+
+def resample_for_state(hpi, state = '', FLAG_plot = False):
+    """
+    Resample data for a single state.
+    """
+    print(hpi[state].head())
+    st_1yr = hpi[state].resample('4A').mean()
+    # Plot if requested.
+    if(FLAG_plot):
+        fig = plt.figure()
+        ax1 = plt.subplot2grid((1,1), (0,0))
+        hpi[state].plot(ax = ax1, label = 'Monthly HPI for ' + state)
+        st_1yr.plot(ax = ax1, label = 'Yearly HPI for ' + state)
+        plt.legend(loc = 4)
+        plt.show()
+    return(st_1yr)
+
+def handle_missing_data(hpi, state = '', FLAG_plot = False):
+    """
+    Resample data for a single state.
+    """
+    period = 'A'
+    added = state + '_' + period
+    hpi[added] = hpi[state].resample(period).mean()
+    print('\nOriginal data frame')
+    print(hpi[[state,added]].head())
+    # DROPPING NaN VALUES.
+    # Dropping all rows with NaN in any column.
+    drp_any = hpi.dropna()
+    print('\nAfter dropping rows with NaN\'s in any column')
+    print(drp_any[[state,added]].head())
+    # Dropping rows were all its columns are NaN's.
+    drp_all = hpi.dropna(how = 'all')
+    print('\nAfter dropping rows were all the columns are NaN\'s')
+    print(drp_all[[state,added]].head())
+    # FILLING NaN VALUES.
+    # Replacing NaN's with -999.
+    fill_999 = hpi.fillna(value = -999)
+    print('\nAfter replacing NaN\'s with -999')
+    print(fill_999[[state,added]].head())
+    # Filling forward.
+    fill_fwd = hpi.fillna(method = 'ffill')
+    print('\nAfter filling forward')
+    print(fill_fwd[[state,added]].head())
+    # Filling backwards.
+    fill_rev = hpi.fillna(method = 'bfill')
+    print('\nAfter filling forward')
+    print(fill_rev[[state,added]].head())
+    # Plot if requested.
+    if(FLAG_plot):
+        fig = plt.figure()
+        ax1 = plt.subplot2grid((1,1), (0,0))
+        hpi[state].plot(ax = ax1, label = 'Original')
+        fill_fwd[added].plot(ax = ax1, label = 'forw')
+        fill_rev[added].plot(ax = ax1, label = 'back')
+        plt.legend(loc = 4)
+        plt.show()
 
 def main():
     key = get_quandl_key()
@@ -93,12 +152,19 @@ def main():
     print(hpi_corr)
     print('\nHPI correlation (Summary)')
     print(hpi_corr.describe())
+    # Resample 'TX' data, annually.
+    resample_for_state(hpi, state = 'TX', FLAG_plot = False)
+    # Handling missing data.
+    handle_missing_data(hpi, state ='AK', FLAG_plot = False)
 
+
+    """
     fig = plt.figure()
     ax1 = plt.subplot2grid((1,1), (0,0))
     hpi.plot(ax = ax1)
     hpi_avg.plot(ax = ax1, color = 'k', linewidth = 10)
     plt.show()
+    """
 
 if __name__ == '__main__':
     import pandas as pd
