@@ -279,7 +279,7 @@ def main():
     # Handling missing data.
     handle_missing_data(hpi_state, state ='AK', FLAG_plot = False)
     # Computing moving/rolling stats.
-    rolling_stats(hpi_state, stat1 ='TX', stat2 = 'AK', FLAG_plot = False)
+    rolling_stats(hpi_state, stat1 ='TX', stat2 = 'AK', FLAG_plot = True)
     # Read 30 year mortgage.
     mort = get_quandl_single_column(key = key, col_name = 'M30',
         quandl_label = 'FMAC/MORTG', init_date = '1975-01-01',
