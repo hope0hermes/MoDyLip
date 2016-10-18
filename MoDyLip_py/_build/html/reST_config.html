@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Spontaneous curvature from lateral pressure profile &mdash; py3_curv_from_press_prof 0.1 documentation</title>
+    <title>System configuration &mdash; MoDyLip Analysis 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,9 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="py3_curv_from_press_prof 0.1 documentation" href="index.html" />
-    <link rel="next" title="Lateral pressure profile" href="reST_lat_press_prof.html" />
-    <link rel="prev" title="Welcome to PressProf’s documentation!" href="index.html" /> 
+    <link rel="top" title="MoDyLip Analysis 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to MoDyLip Analysis’s documentation!" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,12 +37,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="reST_lat_press_prof.html" title="Lateral pressure profile"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to PressProf’s documentation!"
+          <a href="index.html" title="Welcome to MoDyLip Analysis’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">py3_curv_from_press_prof 0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -52,28 +48,45 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="spontaneous-curvature-from-lateral-pressure-profile">
-<h1>Spontaneous curvature from lateral pressure profile<a class="headerlink" href="#spontaneous-curvature-from-lateral-pressure-profile" title="Permalink to this headline">¶</a></h1>
-<p>Spontaneous curvature of individual lipid species from the 1st integral momenta
-of the lateral pressure profile.</p>
-<span class="target" id="module-py3_curv_from_press_prof"></span><dl class="function">
-<dt id="py3_curv_from_press_prof.main">
-<tt class="descclassname">py3_curv_from_press_prof.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#py3_curv_from_press_prof.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Main sentinel for standalone and module usage.</p>
+  <div class="section" id="system-configuration">
+<h1>System configuration<a class="headerlink" href="#system-configuration" title="Permalink to this headline">¶</a></h1>
+<p>System configuration.</p>
+<p>Stores the complete information of the system configuration for a particular
+time step.</p>
+<span class="target" id="module-py3_config"></span><dl class="class">
+<dt id="py3_config.Configuration">
+<em class="property">class </em><tt class="descclassname">py3_config.</tt><tt class="descname">Configuration</tt><a class="reference internal" href="_modules/py3_config.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>System configuration.</p>
+<p>Stores the complete information of the system configuration for a particular
+time step. The information is read from an input configuration file, which
+is assumed to have the following format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span># L=%f %f %f t=%f blocks=%d
+# v=%f ...  w=%f ...
+# a2=%f a3=%f Re=%f N=%d ks=%f kb=%f l0=%f
+# n=%d N=%d name=%s
+%f %f %f %f %f %f %d
+%f %f %f %f %f %f %d
+%f %f %f %f %f %f %d
+.  .  .  .  .  .  .
+.  .  .  .  .  .  .
+.  .  .  .  .  .  .
+%f %f %f %f %f %f %d
+%f %f %f %f %f %f %d
+%f %f %f %f %f %f %d
+</pre></div>
+</div>
+<dl class="method">
+<dt id="py3_config.Configuration.__init__">
+<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/py3_config.html#Configuration.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the 1st class</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="function">
-<dt id="py3_curv_from_press_prof.plot_mom1_vs_lat_press_prof">
-<tt class="descclassname">py3_curv_from_press_prof.</tt><tt class="descname">plot_mom1_vs_lat_press_prof</tt><big>(</big><em>run</em><big>)</big><a class="headerlink" href="#py3_curv_from_press_prof.plot_mom1_vs_lat_press_prof" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the lateral pressure profile and its 1st integral momentum.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>run</strong> (<em>[LatPressProf]</em>) &#8211; List with the different pressure profiles.</td>
-</tr>
-</tbody>
-</table>
+<dt id="py3_config.main">
+<tt class="descclassname">py3_config.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/py3_config.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pero mira que programita.</p>
 </dd></dl>
 
 </div>
@@ -86,13 +99,10 @@ of the lateral pressure profile.</p>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to PressProf&#8217;s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="reST_lat_press_prof.html"
-                        title="next chapter">Lateral pressure profile</a></p>
+                        title="previous chapter">Welcome to MoDyLip Analysis&#8217;s documentation!</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/reST_curv_from_press_prof.txt"
+    <li><a href="_sources/reST_config.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -122,12 +132,9 @@ of the lateral pressure profile.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="reST_lat_press_prof.html" title="Lateral pressure profile"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to PressProf’s documentation!"
+          <a href="index.html" title="Welcome to MoDyLip Analysis’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">py3_curv_from_press_prof 0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

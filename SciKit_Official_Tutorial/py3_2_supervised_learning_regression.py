@@ -21,7 +21,7 @@ def lin_reg_all_features(headers, data, target):
             headers[val], clf.coef_[val], clf.intercept_))
 
 def lin_reg_single_feature(headers, data, target):
-    # Select the feature to be analized.
+    # Select the feature to be analyzed.
     feat = 1
     # Get train and test data sets.
     size = 150
