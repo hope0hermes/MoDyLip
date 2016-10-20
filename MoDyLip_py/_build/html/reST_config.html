@@ -55,30 +55,59 @@
 time step.</p>
 <span class="target" id="module-py3_config"></span><dl class="class">
 <dt id="py3_config.Configuration">
-<em class="property">class </em><tt class="descclassname">py3_config.</tt><tt class="descname">Configuration</tt><a class="reference internal" href="_modules/py3_config.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration" title="Permalink to this definition">¶</a></dt>
-<dd><p>System configuration.</p>
-<p>Stores the complete information of the system configuration for a particular
-time step. The information is read from an input configuration file, which
-is assumed to have the following format:</p>
+<em class="property">class </em><tt class="descclassname">py3_config.</tt><tt class="descname">Configuration</tt><big>(</big><em>in_file=''</em><big>)</big><a class="reference internal" href="_modules/py3_config.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses an input configuration file and returns an object with the complete
+information of the system at a particular time.</p>
+<p>The input file should comprise two parts:</p>
+<ul class="simple">
+<li>A header, with the status of the simulation control parameters.</li>
+<li>A body, with the position, velocity and type of each particle.</li>
+</ul>
+<p>This information must be provided in the following format (pay particular
+attention to the header spacing!!!):</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span># L=%f %f %f t=%f blocks=%d
 # v=%f ...  w=%f ...
 # a2=%f a3=%f Re=%f N=%d ks=%f kb=%f l0=%f
 # n=%d N=%d name=%s
-%f %f %f %f %f %f %d
-%f %f %f %f %f %f %d
-%f %f %f %f %f %f %d
-.  .  .  .  .  .  .
-.  .  .  .  .  .  .
-.  .  .  .  .  .  .
-%f %f %f %f %f %f %d
-%f %f %f %f %f %f %d
-%f %f %f %f %f %f %d
+# r_x r_y r_z v_x v_y v_z type   &lt;- This line can be omitted
+  %f  %f  %f  %f  %f  %f  %d
+  %f  %f  %f  %f  %f  %f  %d
+  %f  %f  %f  %f  %f  %f  %d
+   .   .   .   .   .   .   .
+   .   .   .   .   .   .   .
+   .   .   .   .   .   .   .
+  %f  %f  %f  %f  %f  %f  %d
+  %f  %f  %f  %f  %f  %f  %d
+  %f  %f  %f  %f  %f  %f  %d
 </pre></div>
 </div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>box</strong> (<em>[float]</em>) &#8211; Lateral dimensions of the simulation box along the X, Y and Z
+directions: <tt class="docutils literal"><span class="pre">L</span></tt></li>
+<li><strong>sim_time</strong> (<em>float</em>) &#8211; Simulation time step: <tt class="docutils literal"><span class="pre">t</span></tt></li>
+<li><strong>vir2</strong> (<em>[float]</em>) &#8211; 2nd order virial coefficients: <tt class="docutils literal"><span class="pre">v</span></tt></li>
+<li><strong>vir3</strong> (<em>[float]</em>) &#8211; 3rd order virial coefficients: <tt class="docutils literal"><span class="pre">w</span></tt></li>
+<li><strong>cutoff2</strong> (<em>float</em>) &#8211; Cutoff radius for the 2nd order weighting densities: <tt class="docutils literal"><span class="pre">a2</span></tt></li>
+<li><strong>cutoff3</strong> (<em>float</em>) &#8211; Cutoff radius for the 3rd order weighting densities: <tt class="docutils literal"><span class="pre">a3</span></tt></li>
+<li><strong>Re</strong> (<em>float</em>) &#8211; End-to-end distance of a single lipid</li>
+<li><strong>ks</strong> (<em>float</em>) &#8211; Spring constant for the harmonic potential</li>
+<li><strong>l0</strong> (<em>float</em>) &#8211; Rest length for the harmonic potential</li>
+<li><strong>kb</strong> (<em>float</em>) &#8211; Strength of the bond-angle bending potential</li>
+<li><strong>n_chains</strong> (<em>int</em>) &#8211; Number of lipids in the system: <tt class="docutils literal"><span class="pre">n</span></tt></li>
+<li><strong>ch_len</strong> (<em>int</em>) &#8211; Number of beads per lipid: <tt class="docutils literal"><span class="pre">N</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="py3_config.Configuration.__init__">
-<tt class="descname">__init__</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/py3_config.html#Configuration.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the 1st class</p>
+<dt id="py3_config.Configuration._ParseHeader">
+<tt class="descname">_ParseHeader</tt><big>(</big><em>stream</em><big>)</big><a class="reference internal" href="_modules/py3_config.html#Configuration._ParseHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration._ParseHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read simulation control parameters.</p>
 </dd></dl>
 
 </dd></dl>

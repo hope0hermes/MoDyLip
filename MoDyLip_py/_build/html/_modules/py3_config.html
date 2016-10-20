@@ -50,41 +50,160 @@
 <span></span><span class="ch">#!/usr/bin/python3</span>
 <span class="c1">#encoding-utf8</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
 <div class="viewcode-block" id="Configuration"><a class="viewcode-back" href="../reST_config.html#py3_config.Configuration">[docs]</a><span class="k">class</span> <span class="nc">Configuration</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    System configuration.</span>
+<span class="sd">    Parses an input configuration file and returns an object with the complete</span>
+<span class="sd">    information of the system at a particular time.</span>
 
-<span class="sd">    Stores the complete information of the system configuration for a particular</span>
-<span class="sd">    time step. The information is read from an input configuration file, which</span>
-<span class="sd">    is assumed to have the following format::</span>
+<span class="sd">    The input file should comprise two parts:</span>
 
-<span class="sd">        # L=%f %f %f t=%f blocks=%d</span>
-<span class="sd">        # v=%f ...  w=%f ...</span>
-<span class="sd">        # a2=%f a3=%f Re=%f N=%d ks=%f kb=%f l0=%f</span>
-<span class="sd">        # n=%d N=%d name=%s</span>
-<span class="sd">        %f %f %f %f %f %f %d</span>
-<span class="sd">        %f %f %f %f %f %f %d</span>
-<span class="sd">        %f %f %f %f %f %f %d</span>
-<span class="sd">        .  .  .  .  .  .  .</span>
-<span class="sd">        .  .  .  .  .  .  .</span>
-<span class="sd">        .  .  .  .  .  .  .</span>
-<span class="sd">        %f %f %f %f %f %f %d</span>
-<span class="sd">        %f %f %f %f %f %f %d</span>
-<span class="sd">        %f %f %f %f %f %f %d</span>
+<span class="sd">    - A header, with the status of the simulation control parameters.</span>
+<span class="sd">    - A body, with the position, velocity and type of each particle.</span>
+
+<span class="sd">    This information must be provided in the following format (pay particular</span>
+<span class="sd">    attention to the header spacing!!!)::</span>
+
+<span class="sd">            # L=%f %f %f t=%f blocks=%d</span>
+<span class="sd">            # v=%f ...  w=%f ...</span>
+<span class="sd">            # a2=%f a3=%f Re=%f N=%d ks=%f kb=%f l0=%f</span>
+<span class="sd">            # n=%d N=%d name=%s</span>
+<span class="sd">            # r_x r_y r_z v_x v_y v_z type   &lt;- This line can be omitted</span>
+<span class="sd">              %f  %f  %f  %f  %f  %f  %d</span>
+<span class="sd">              %f  %f  %f  %f  %f  %f  %d</span>
+<span class="sd">              %f  %f  %f  %f  %f  %f  %d</span>
+<span class="sd">               .   .   .   .   .   .   .</span>
+<span class="sd">               .   .   .   .   .   .   .</span>
+<span class="sd">               .   .   .   .   .   .   .</span>
+<span class="sd">              %f  %f  %f  %f  %f  %f  %d</span>
+<span class="sd">              %f  %f  %f  %f  %f  %f  %d</span>
+<span class="sd">              %f  %f  %f  %f  %f  %f  %d</span>
+
+<span class="sd">    .. Attributes:</span>
+
+<span class="sd">    :param box: Lateral dimensions of the simulation box along the X, Y and Z</span>
+<span class="sd">        directions: ``L``</span>
+<span class="sd">    :param sim_time: Simulation time step: ``t``</span>
+<span class="sd">    :param vir2: 2nd order virial coefficients: ``v``</span>
+<span class="sd">    :param vir3: 3rd order virial coefficients: ``w``</span>
+<span class="sd">    :param cutoff2: Cutoff radius for the 2nd order weighting densities: ``a2``</span>
+<span class="sd">    :param cutoff3: Cutoff radius for the 3rd order weighting densities: ``a3``</span>
+<span class="sd">    :param Re: End-to-end distance of a single lipid</span>
+<span class="sd">    :param ks: Spring constant for the harmonic potential</span>
+<span class="sd">    :param l0: Rest length for the harmonic potential</span>
+<span class="sd">    :param kb: Strength of the bond-angle bending potential</span>
+<span class="sd">    :param n_chains: Number of lipids in the system: ``n``</span>
+<span class="sd">    :param ch_len: Number of beads per lipid: ``N``</span>
+
+<span class="sd">    :type box: [float]</span>
+<span class="sd">    :type sim_time: float</span>
+<span class="sd">    :type vir2: [float]</span>
+<span class="sd">    :type vir3: [float]</span>
+<span class="sd">    :type cutoff2: float</span>
+<span class="sd">    :type cutoff3: float</span>
+<span class="sd">    :type Re: float</span>
+<span class="sd">    :type ks: float</span>
+<span class="sd">    :type l0: float</span>
+<span class="sd">    :type kb: float</span>
+<span class="sd">    :type n_chains: int</span>
+<span class="sd">    :type ch_len: int</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Configuration.__init__"><a class="viewcode-back" href="../reST_config.html#py3_config.Configuration.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_file</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">in_file</span><span class="p">),</span> <span class="s1">&#39;Can</span><span class="se">\&#39;</span><span class="s1">t open &#39;</span> <span class="o">+</span> <span class="n">in_file</span>
+        <span class="n">stream</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_file</span> <span class="o">=</span> <span class="n">in_file</span>
+        <span class="c1"># Read control parameters.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ParseHeader</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vir2</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vir3</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff2</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff3</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Re</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ks</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kb</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l0</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ch_len</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span><span class="p">)</span>
+
+        <span class="c1"># Close file.</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Configuration._ParseHeader"><a class="viewcode-back" href="../reST_config.html#py3_config.Configuration._ParseHeader">[docs]</a>    <span class="k">def</span> <span class="nf">_ParseHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This is the 1st class</span>
+<span class="sd">        Read simulation control parameters.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">base_msn</span> <span class="o">=</span> <span class="s1">&#39;Header of </span><span class="se">\&#39;</span><span class="s1">{:s}</span><span class="se">\&#39;</span><span class="s1">: &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;# L=&#39;</span><span class="p">)):</span>
+                <span class="c1"># Simulation time.</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;# L=&#39;</span><span class="p">)</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; t=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tail</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;t &lt; 0.&#39;</span>
+                <span class="c1"># Simulation box.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;L != &#39;</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">:</span> <span class="k">assert</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;L &lt;= 0&#39;</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;# v=&#39;</span><span class="p">)):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;# v=&#39;</span><span class="p">)</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; w=&#39;</span><span class="p">)</span>
+                <span class="c1"># 2nd and 3rd order virial coefficients.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vir2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vir3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tail</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vir2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;v= in empty&#39;</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vir3</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;w= in empty&#39;</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;# a2=&#39;</span><span class="p">)):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;# a2=&#39;</span><span class="p">)</span>
+                <span class="c1"># Cutoff radius for 2nd order weighting functions.</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; a3=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cutoff2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff2</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;a2 &lt;= 0.&#39;</span>
+                <span class="c1"># Cutoff radius for 3rd order weighting functions.</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; Re=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cutoff3</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff3</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;a3 &lt;= 0.&#39;</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff3</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff2</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;a3 &lt; a2&#39;</span>
+                <span class="c1"># End-to-end distance.</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; N=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Re</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">Re</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;Re &lt;= 0.&#39;</span>
+                <span class="c1"># Number of chains.</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; ks=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ch_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ch_len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;N &lt;= 0&#39;</span>
+                <span class="c1"># Force constant for the harmonic potential.</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; kb=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ks</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ks</span> <span class="o">&gt;=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;ks &lt; 0.&#39;</span>
+                <span class="c1"># Force constant for the angular potential.</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; l0=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kb</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">kb</span> <span class="o">&gt;=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;kb &lt; 0.&#39;</span>
+                <span class="c1"># Rest length for the harmonic potential.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">l0</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">l0</span> <span class="o">&gt;=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;l0 &lt; 0.&#39;</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;# n=&#39;</span><span class="p">)):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;# n=&#39;</span><span class="p">)</span>
+                <span class="n">line</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; N=&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_chains</span> <span class="o">&gt;=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">base_msn</span> <span class="o">+</span> <span class="s1">&#39;n &lt; 0.&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span>
 </div></div>
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../reST_config.html#py3_config.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pero mira que programita.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">(</span><span class="s1">&#39;configuration_00000000.cfg&#39;</span><span class="p">)</span>
+    <span class="c1">#cfg = Configuration()</span>
+
 </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
