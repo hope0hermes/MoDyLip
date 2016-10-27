@@ -2,7 +2,11 @@
 #encoding-utf8
 
 import numpy as np
+import copy
 import os
+import matplotlib.pyplot as plt
+
+import py3_grid_mapping as gmp
 
 class Configuration():
     """
@@ -68,36 +72,276 @@ class Configuration():
         self.in_file = in_file
         # Read control parameters.
         self._ParseHeader(stream)
-        print(self.time)
-        print(self.box)
-        print(self.vir2)
-        print(self.vir3)
-        print(self.cutoff2)
-        print(self.cutoff3)
-        print(self.Re)
-        print(self.ks)
-        print(self.kb)
-        print(self.l0)
-        print(self.ch_len)
-        print(self.n_chains)
         # Read configuration.
-        _ParseBody(stream)
-
+        self._ParseBody(stream)
         # Close file.
         stream.close()
+
+    def PlotConfig(self, cfg, prop='leaf', sat=0.2, size=50):
+        """
+        Plot the three principal projections of the configuration.
+
+        """
+        # Check input parameters.
+        prop_dict = {'block':3, 'leaf':4}
+        assert prop in prop_dict, 'Invalid \'prop\' to be plotted'
+        col = prop_dict[prop]
+        assert (sat > 0. and sat <= 1.), '\'sat\' should be in (0, 1]'
+        assert size > 0, 'Invalid size'
+
+        fig = plt.figure(figsize=(12,12))
+        ax1 = plt.subplot2grid((4,4), (0,0), rowspan=1, colspan=3)
+        ax2 = plt.subplot2grid((4,4), (1,0), rowspan=3, colspan=3)
+        ax3 = plt.subplot2grid((4,4), (1,3), rowspan=3, colspan=1)
+
+        ax1.scatter(cfg[:,0], cfg[:,2], c=cfg[:,col], s=size, alpha=sat)
+        ax2.scatter(cfg[:,0], cfg[:,1], c=cfg[:,col], s=size, alpha=2*sat)
+        ax3.scatter(cfg[:,2], cfg[:,1], c=cfg[:,col], s=size, alpha=sat)
+
+        plt.show()
+
+    def GetSubset(self, leaflet=None, arch=None, block=None,
+        target='single', points=[32,32]):
+        """
+        Returns a subset of beads, characterized by the leaflet, chain
+        architecture and lipid sub-block.
+
+        """
+        # Check if leaflets have been labeled.
+        try:
+            self._leaf
+        except AttributeError:
+            self._LabelLeaflets(target, points)
+        # Parse flag values from input parameters.
+        leaf_flag, arch_flag, block_flag = self._ParseInputGetSubset(leaflet,
+            arch, block)
+        sub = []
+        pos = [float] * 5
+        for bd_base in range(0, self.n_beads, self.ch_len):
+            leaf_val = int(self._leaf[bd_base])
+            arch_val = int(self.cfg[bd_base, 6])
+            for bd in range(bd_base, bd_base + self.ch_len):
+                block_val = int(self.cfg[bd, 6])
+                sel = self._SelectBead(
+                    leaf_val, arch_val, block_val,
+                    leaf_flag, arch_flag, block_flag)
+                if(sel):
+                    for k in range(3): pos[k] = self.cfg[bd,k]
+                    pos[3] = self.cfg[bd,6]
+                    pos[4] = self._leaf[bd]
+                    sub.append(copy.deepcopy(pos))
+        return(np.array(sub))
+
+    def _SelectBead(self, leaf_val, arch_val, block_val,
+        leaf_flag, arch_flag, block_flag):
+        """
+        Check if a bead belongs to the requested subset, which is defined by
+        the input flags.
+
+        """
+        leaf_sel = False
+        arch_sel = False
+        block_sel = False
+        if((leaf_flag is None) or (leaf_val == leaf_flag)):
+            leaf_sel = True
+        if((arch_flag is None) or (arch_val == arch_flag)):
+            arch_sel = True
+        if(((block_flag == -1) and (block_val > 0)) or (block_val == block_flag)):
+            block_sel = True
+        return(leaf_sel and arch_sel and block_sel)
+
+    def _ParseInputGetSubset(self, leaflet, arch, block):
+        """
+        Parses parameters passed in to 'GetSubset' and return the set of values
+        to be drawn from the different columns of 'self.cfg'
+
+        """
+        leaf_flag = None
+        arch_flag = None
+        block_flag = None
+        # Parse leaflet.
+        if(leaflet is None):
+            leaf_flag = None
+        else:
+            leaflet = leaflet.lower()
+            if((leaflet == 'upper') or (leaflet == 'outer')):
+                leaf_flag = 1
+            elif((leaflet == 'lower') or (leaflet == 'inner')):
+                leaf_flag = 0
+            else:
+                assert False, 'Invalid \'leafalet\' option'
+        # Parse chain architecture.
+        if(arch is None):
+            arch_flag = None
+        else:
+            arch_flag = int(arch[0])
+        # Parse block.
+        if(block is None):
+            block_flag = None
+        else:
+            block = block.lower()
+            if(arch_flag is None):
+                if(block == 'head'):
+                    block_flag = -1
+                elif(block == 'tail'):
+                    block_flag = 0
+                else:
+                    assert False, 'Invalid \'block\' option'
+            else:
+                if(block == 'head'):
+                    block_flag = arch_flag
+                elif(block == 'tail'):
+                    block_flag = 0
+                else:
+                    assert False, 'Invalid \'block\' option'
+        return(leaf_flag, arch_flag, block_flag)
+
+    def _LabelLeaflets(self, target='single', points=[32,32]):
+        """
+        Labels chains according to its leaflet.
+
+        """
+        try:
+            self.bilayer_cm
+        except AttributeError:
+            self.bilayer_cm = gmp.GridMap(self.cfg[:, [0,1]], self.cfg[:, 2],
+                points)
+
+        self._leaf = np.empty([self.n_beads,1], dtype=int)
+        point = [float] * 3
+        for bd_base in range(0, self.n_beads, self.ch_len):
+            if(target == 'cm'):
+                for k in range(3): point[k] = 0.
+                for bd in range(bd_base, bd_base + self.ch_len):
+                    for k in range(3): point[k] += self.cfg[bd, k] / self.ch_len
+            elif(target == 'single'):
+                for k in range(3): point[k] = self.cfg[bd_base, k]
+            else:
+                assert False, 'Specify \'cm\' or \'single\''
+            val = self.bilayer_cm.ClassifyPoint(point)
+            for bd in range(bd_base, bd_base + self.ch_len):
+                self._leaf[bd] = val
+
+    def Backfold(self):
+        """
+        Wraps particles into the simulation box.
+
+        """
+        orig = self._cm - 0.5*self.box
+        for row in range(self.n_beads):
+            for col in range(3):
+                rel_pos = self.cfg[row, col] - orig[col]
+                self.cfg[row, col] = np.mod(rel_pos, self.box[col]) + orig[col]
+
+    def MoveTo(self, location=[0., 0., 0.]):
+        """
+        Translates configuration center of mass to the specified location.
+
+        :param location: New configuration center of mass.
+
+        :type location: [float]
+
+        """
+        shift = location - self._cm
+        if(np.linalg.norm(shift) > 1.e-3):
+            self.cfg[:, 0:3] += shift
+
+    def GetCenterOfMass(self):
+        """
+        Evaluates and returns the configuration center of mass.
+
+        """
+        self._cm = np.mean(self.cfg[:, 0:3], axis=0)
+        return(self._cm)
 
     def _ParseBody(self, stream):
         """
         Read particles' position, velocity and type.
 
-        """
-        self.cfg = np.array([self.n_beads, 7], dtype=np.float)
-        count =
+        Returns a ndarray of shape (n_beads, 7), where the 6 attributes
+        (columns) are the coordinated bead position and velocities, and the last
+        attribute is the bead type. It also identifies the different chain
+        architectures (returned in self.ch_arch) and the center of mass of the
+        system (returned in self._cm).
 
+        :param stream: Data stream to the input configuration file
+        :param cfg: Array of shape (n_beads, 7) storing the three coordinated
+            positions and velocities of each particles and its type
+        :param ch_arch: Chain architectures identified in the input file
+        :param _cm: Center of mass of the system
+
+        :type stream: File object
+        :type cfg: ndarray([n_beads, 7], dtype=float)
+        :type ch_arch: []
+        :type _cm: ndarray([3], dtype=float)
+
+        """
+        # Declarations.
+        self.cfg = np.empty([self.n_beads, 7], dtype=np.float)
+        self._cm = np.zeros(3, dtype=np.float)
+        self.ch_arch = []
+        buff = [float(0)] * self.ch_len
+        # Rewind array.
+        stream.seek(0)
+        row = int(0)
+        bead = int(0)
+        for line in stream:
+            line = line.split()
+            if line[0].startswith('#'):
+                continue
+            elif(len(line) == 7):
+                # Position.
+                for col in range(3):
+                    self.cfg[row, col] = float(line[col])
+                    self._cm[col] += self.cfg[row, col]
+                # Velocity.
+                for col in range(3, 6):
+                    self.cfg[row, col] = float(line[col])
+                # Type.
+                self.cfg[row, 6] = float(line[6])
+                buff[bead] = self.cfg[row, 6]
+                bead += 1
+                if(bead == self.ch_len):
+                    self._IdentifyChainArch(buff)
+                    bead = 0
+                # Read the next bead.
+                row += 1
+            else:
+                continue
+        assert self.n_beads == row, 'n_beads != n_chains * ch_len'
+        self._cm /= self.n_beads
+        print('Chain architectures')
+        for ch in self.ch_arch: print(ch)
+
+    def _IdentifyChainArch(self, buff):
+        """
+        Identifies new chain architectures in the passed in buffer and appends
+        them to ch_arch.
+
+        :param buff: Input chain architecture
+        :param ch_arch: List storing all the different chain architectures.
+
+        :type buff: [float]
+        :type ch_arch: [[float]]
+
+        """
+        num_archs = len(self.ch_arch)
+        if(num_archs == 0):
+            self.ch_arch.append(copy.deepcopy(buff))
+        else:
+            mismatch = 0
+            for ch in self.ch_arch:
+                if(buff[0] != ch[0]): mismatch += 1
+            if(mismatch == num_archs):
+                self.ch_arch.append(copy.deepcopy(buff))
 
     def _ParseHeader(self, stream):
         """
         Read simulation control parameters and set the total number of beads.
+
+        :param stream: Data stream to the input configuration file
+
+        :type stream: File object
 
         """
         base_msn = 'Header of \'{:s}\': '.format(self.in_file)
@@ -158,18 +402,6 @@ class Configuration():
                 line, sep, tail = line.partition(' N=')
                 self.n_chains = int(line)
                 assert self.n_chains >= 0., base_msn + 'n < 1.'
-                self.n_beads = sefl.n_chains * self.ch_len
+                self.n_beads = self.n_chains * self.ch_len
             else:
                 break
-
-def main():
-    """
-    Pero mira que programita.
-
-    """
-    cfg = Configuration('configuration_00000000.cfg')
-    #cfg = Configuration()
-
-
-if __name__ == '__main__':
-    main()

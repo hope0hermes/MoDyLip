@@ -8,7 +8,7 @@
     
     <title>System configuration &mdash; MoDyLip Analysis 0.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,10 +24,11 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="MoDyLip Analysis 0.1 documentation" href="index.html" />
+    <link rel="next" title="2D Grid Mapping" href="reST_grid_mapping.html" />
     <link rel="prev" title="Welcome to MoDyLip Analysis’s documentation!" href="index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -37,16 +38,19 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="reST_grid_mapping.html" title="2D Grid Mapping"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="index.html" title="Welcome to MoDyLip Analysis’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="system-configuration">
 <h1>System configuration<a class="headerlink" href="#system-configuration" title="Permalink to this headline">¶</a></h1>
@@ -55,7 +59,7 @@
 time step.</p>
 <span class="target" id="module-py3_config"></span><dl class="class">
 <dt id="py3_config.Configuration">
-<em class="property">class </em><tt class="descclassname">py3_config.</tt><tt class="descname">Configuration</tt><big>(</big><em>in_file=''</em><big>)</big><a class="reference internal" href="_modules/py3_config.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">py3_config.</code><code class="descname">Configuration</code><span class="sig-paren">(</span><em>in_file=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses an input configuration file and returns an object with the complete
 information of the system at a particular time.</p>
 <p>The input file should comprise two parts:</p>
@@ -65,7 +69,7 @@ information of the system at a particular time.</p>
 </ul>
 <p>This information must be provided in the following format (pay particular
 attention to the header spacing!!!):</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># L=%f %f %f t=%f blocks=%d
+<div class="highlight-python"><div class="highlight"><pre># L=%f %f %f t=%f blocks=%d
 # v=%f ...  w=%f ...
 # a2=%f a3=%f Re=%f N=%d ks=%f kb=%f l0=%f
 # n=%d N=%d name=%s
@@ -87,34 +91,113 @@ attention to the header spacing!!!):</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>box</strong> (<em>[float]</em>) &#8211; Lateral dimensions of the simulation box along the X, Y and Z
-directions: <tt class="docutils literal"><span class="pre">L</span></tt></li>
-<li><strong>sim_time</strong> (<em>float</em>) &#8211; Simulation time step: <tt class="docutils literal"><span class="pre">t</span></tt></li>
-<li><strong>vir2</strong> (<em>[float]</em>) &#8211; 2nd order virial coefficients: <tt class="docutils literal"><span class="pre">v</span></tt></li>
-<li><strong>vir3</strong> (<em>[float]</em>) &#8211; 3rd order virial coefficients: <tt class="docutils literal"><span class="pre">w</span></tt></li>
-<li><strong>cutoff2</strong> (<em>float</em>) &#8211; Cutoff radius for the 2nd order weighting densities: <tt class="docutils literal"><span class="pre">a2</span></tt></li>
-<li><strong>cutoff3</strong> (<em>float</em>) &#8211; Cutoff radius for the 3rd order weighting densities: <tt class="docutils literal"><span class="pre">a3</span></tt></li>
+directions: <code class="docutils literal"><span class="pre">L</span></code></li>
+<li><strong>sim_time</strong> (<em>float</em>) &#8211; Simulation time step: <code class="docutils literal"><span class="pre">t</span></code></li>
+<li><strong>vir2</strong> (<em>[float]</em>) &#8211; 2nd order virial coefficients: <code class="docutils literal"><span class="pre">v</span></code></li>
+<li><strong>vir3</strong> (<em>[float]</em>) &#8211; 3rd order virial coefficients: <code class="docutils literal"><span class="pre">w</span></code></li>
+<li><strong>cutoff2</strong> (<em>float</em>) &#8211; Cutoff radius for the 2nd order weighting densities: <code class="docutils literal"><span class="pre">a2</span></code></li>
+<li><strong>cutoff3</strong> (<em>float</em>) &#8211; Cutoff radius for the 3rd order weighting densities: <code class="docutils literal"><span class="pre">a3</span></code></li>
 <li><strong>Re</strong> (<em>float</em>) &#8211; End-to-end distance of a single lipid</li>
 <li><strong>ks</strong> (<em>float</em>) &#8211; Spring constant for the harmonic potential</li>
 <li><strong>l0</strong> (<em>float</em>) &#8211; Rest length for the harmonic potential</li>
 <li><strong>kb</strong> (<em>float</em>) &#8211; Strength of the bond-angle bending potential</li>
-<li><strong>n_chains</strong> (<em>int</em>) &#8211; Number of lipids in the system: <tt class="docutils literal"><span class="pre">n</span></tt></li>
-<li><strong>ch_len</strong> (<em>int</em>) &#8211; Number of beads per lipid: <tt class="docutils literal"><span class="pre">N</span></tt></li>
+<li><strong>n_chains</strong> (<em>int</em>) &#8211; Number of lipids in the system: <code class="docutils literal"><span class="pre">n</span></code></li>
+<li><strong>ch_len</strong> (<em>int</em>) &#8211; Number of beads per lipid: <code class="docutils literal"><span class="pre">N</span></code></li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
+<dt id="py3_config.Configuration.Backfold">
+<code class="descname">Backfold</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#Configuration.Backfold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration.Backfold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps particles into the simulation box.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_config.Configuration.GetCenterOfMass">
+<code class="descname">GetCenterOfMass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#Configuration.GetCenterOfMass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration.GetCenterOfMass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates and returns the configuration center of mass.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_config.Configuration.MoveTo">
+<code class="descname">MoveTo</code><span class="sig-paren">(</span><em>location=[0.0, 0.0, 0.0]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#Configuration.MoveTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration.MoveTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates configuration center of mass to the specified location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>location</strong> (<em>[float]</em>) &#8211; New configuration center of mass.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_config.Configuration._IdentifyChainArch">
+<code class="descname">_IdentifyChainArch</code><span class="sig-paren">(</span><em>buff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#Configuration._IdentifyChainArch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration._IdentifyChainArch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies new chain architectures in the passed in buffer and appends
+them to _ch_arch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>buff</strong> (<em>[float]</em>) &#8211; Input chain architecture</li>
+<li><strong>_ch_arch</strong> (<em>[[float]]</em>) &#8211; List storing all the different chain architectures.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="py3_config.Configuration._ParseBody">
+<code class="descname">_ParseBody</code><span class="sig-paren">(</span><em>stream</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#Configuration._ParseBody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration._ParseBody" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read particles&#8217; position, velocity and type.</p>
+<p>Returns a ndarray of shape (n_beads, 7), where the 6 attributes
+(columns) are the coordinated bead position and velocities, and the last
+attribute is the bead type. It also identifies the different chain
+architectures (returned in self._ch_arch) and the center of mass of the
+system (returned in self._cm).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stream</strong> (<em>File object</em>) &#8211; Data stream to the input configuration file</li>
+<li><strong>cfg</strong> (<em>ndarray([n_beads, 7], dtype=float)</em>) &#8211; Array of shape (n_beads, 7) storing the three coordinated
+positions and velocities of each particles and its type</li>
+<li><strong>_ch_arch</strong> (<em>[]</em>) &#8211; Chain architectures identified in the input file</li>
+<li><strong>_cm</strong> (<em>ndarray([3], dtype=float)</em>) &#8211; Center of mass of the system</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="py3_config.Configuration._ParseHeader">
-<tt class="descname">_ParseHeader</tt><big>(</big><em>stream</em><big>)</big><a class="reference internal" href="_modules/py3_config.html#Configuration._ParseHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration._ParseHeader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read simulation control parameters.</p>
+<code class="descname">_ParseHeader</code><span class="sig-paren">(</span><em>stream</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#Configuration._ParseHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.Configuration._ParseHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read simulation control parameters and set the total number of beads.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stream</strong> (<em>File object</em>) &#8211; Data stream to the input configuration file</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="py3_config.main">
-<tt class="descclassname">py3_config.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/py3_config.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.main" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">py3_config.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/py3_config.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#py3_config.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pero mira que programita.</p>
 </dd></dl>
 
@@ -124,17 +207,22 @@ directions: <tt class="docutils literal"><span class="pre">L</span></tt></li>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Welcome to MoDyLip Analysis&#8217;s documentation!</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/reST_config.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reST_grid_mapping.html"
+                        title="next chapter">2D Grid Mapping</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/reST_config.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -151,7 +239,7 @@ directions: <tt class="docutils literal"><span class="pre">L</span></tt></li>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -161,14 +249,17 @@ directions: <tt class="docutils literal"><span class="pre">L</span></tt></li>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="reST_grid_mapping.html" title="2D Grid Mapping"
+             >next</a> |</li>
+        <li class="right" >
           <a href="index.html" title="Welcome to MoDyLip Analysis’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2016, Israel Barragan.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

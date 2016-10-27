@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>py3_grid_mapping &mdash; MoDyLip Analysis 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="MoDyLip Analysis 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for py3_grid_mapping</h1><div class="highlight"><pre>
+<span class="ch">#!/usr/bin/python3</span>
+<span class="c1">#encoding-utf8</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="GridMap"><a class="viewcode-back" href="../reST_grid_mapping.html#py3_grid_mapping.GridMap">[docs]</a><span class="k">class</span> <span class="nc">GridMap</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Discretized mapping of a scalar quantity (average), &#39;y&#39;, over a 2D-surface,</span>
+<span class="sd">    &#39;X&#39;.</span>
+
+<span class="sd">    .. Attributes:</span>
+
+<span class="sd">    :param domain: Input 2d surface along which the discretization will be</span>
+<span class="sd">        evaluated</span>
+<span class="sd">    :param target: Quantity to be averaged</span>
+<span class="sd">    :param map: 2D array with the local discretization of &#39;y</span>
+<span class="sd">    :param points: Number of grid points along each tangential direction</span>
+<span class="sd">    :param width: Slabs&#39; width along each tangential direction</span>
+
+<span class="sd">    :type map: np.array((points[0], points[1]), dtype=float)</span>
+<span class="sd">    :type points: [int]</span>
+<span class="sd">    :type width: [float]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GridMap.__init__"><a class="viewcode-back" href="../reST_grid_mapping.html#py3_grid_mapping.GridMap.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param domain: Input 2d surface along which the discretization will be</span>
+<span class="sd">            evaluated</span>
+<span class="sd">        :param target: Quantity to be averaged</span>
+<span class="sd">        :param points: Number of grid points along each tangential direction</span>
+
+<span class="sd">        :type domain: ndarray([n_samples, 2], dtype=float)</span>
+<span class="sd">        :type target: ndarrat([n_samples], dtype=float)</span>
+<span class="sd">        :type points: [int]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_GetSamples</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GridMap._GetSamples"><a class="viewcode-back" href="../reST_grid_mapping.html#py3_grid_mapping.GridMap._GetSamples">[docs]</a>    <span class="k">def</span> <span class="nf">_GetSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parses input domain and target and returns an initialized grid mapping.</span>
+
+<span class="sd">        :param domain: Input 2d surface along which the discretization will be</span>
+<span class="sd">            evaluated</span>
+<span class="sd">        :param target: Quantity to be averaged</span>
+
+<span class="sd">        :type domain: ndarray([n_samples, 2], dtype=float)</span>
+<span class="sd">        :type target: ndarrat([n_samples], dtype=float)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">MoDyLip Analysis 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Israel Barragan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
