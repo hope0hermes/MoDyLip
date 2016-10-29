@@ -1,5 +1,5 @@
-#!/usr/bin/python3
-#encoding-utf8
+# #!/usr/bin/python3
+# #encoding-utf8
 
 import numpy as np
 import copy
@@ -70,6 +70,28 @@ class Configuration():
         assert os.path.isfile(in_file), 'Can\'t open ' + in_file
         stream = open(in_file, "r", buffering=1)
         self.in_file = in_file
+        # Header parameters.
+        self.n_beads = None
+        self.time = None
+        self.box = None
+        self.vir2 = None
+        self.vir3 = None
+        self.l0 = None
+        self.kb = None
+        self.ks = None
+        self.ch_len = None
+        self.Re = None
+        self.cutoff3 = None
+        self.cutoff2 = None
+        self.n_chains = None
+        self.n_beads = None
+        # Configuration body.
+        self.cfg = None
+        self._cm = None
+        self.ch_arch = None
+        # Leaflet identifier.
+        self._leaf = None
+
         # Read control parameters.
         self._ParseHeader(stream)
         # Read configuration.
@@ -77,6 +99,7 @@ class Configuration():
         # Close file.
         stream.close()
 
+    @classmethod
     def PlotConfig(self, cfg, prop='leaf', sat=0.2, size=50):
         """
         Plot the three principal projections of the configuration.
@@ -108,9 +131,7 @@ class Configuration():
 
         """
         # Check if leaflets have been labeled.
-        try:
-            self._leaf
-        except AttributeError:
+        if(self._leaf is None):
             self._LabelLeaflets(target, points)
         # Parse flag values from input parameters.
         leaf_flag, arch_flag, block_flag = self._ParseInputGetSubset(leaflet,
@@ -125,6 +146,14 @@ class Configuration():
                 sel = self._SelectBead(
                     leaf_val, arch_val, block_val,
                     leaf_flag, arch_flag, block_flag)
+                # print(
+                #     'val = ',
+                #     leaf_val, arch_val, block_val,
+                #     '\tflag = ',
+                #     leaf_flag, arch_flag, block_flag,
+                #     '\tsel = ',
+                #     sel)
+                # input()
                 if(sel):
                     for k in range(3): pos[k] = self.cfg[bd,k]
                     pos[3] = self.cfg[bd,6]
@@ -146,7 +175,9 @@ class Configuration():
             leaf_sel = True
         if((arch_flag is None) or (arch_val == arch_flag)):
             arch_sel = True
-        if(((block_flag == -1) and (block_val > 0)) or (block_val == block_flag)):
+        if((block_flag is None) or
+            ((block_flag == -1) and (block_val > 0)) or
+            (block_val == block_flag)):
             block_sel = True
         return(leaf_sel and arch_sel and block_sel)
 
@@ -405,3 +436,9 @@ class Configuration():
                 self.n_beads = self.n_chains * self.ch_len
             else:
                 break
+
+# def main():
+#     cof = Configuration('configuration_00000000.cfg')
+#
+# if __name__ == '__main__':
+#     main()

@@ -1,5 +1,5 @@
-#!/usr/bin/python3
-#encoding-utf8
+# #!/usr/bin/python3
+# #encoding-utf8
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -38,6 +38,9 @@ class GridMap():
         """
         assert domain.shape[0] == len(target), 'Unequal samples!!!'
         self.points = points
+        self.start = None
+        self.width = None
+        self.map = None
         self._SetMapping(domain, target)
 
     def _SetMapping(self, domain, target):
