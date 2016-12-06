@@ -5,6 +5,7 @@ import numpy as np
 import copy
 import os
 import matplotlib.pyplot as plt
+from operator import itemgetter
 
 import py3_grid_mapping as gmp
 
@@ -124,7 +125,7 @@ class Configuration():
         plt.show()
 
     def GetSubset(self, leaflet=None, arch=None, block=None,
-        target='single', points=[32,32]):
+        target='single', points=[32,32], cm=False):
         """
         Returns a subset of beads, characterized by the leaflet, chain
         architecture and lipid sub-block.
@@ -137,29 +138,56 @@ class Configuration():
         leaf_flag, arch_flag, block_flag = self._ParseInputGetSubset(leaflet,
             arch, block)
         sub = []
-        pos = [float] * 5
+        buff = [ 5*[0] for y in range(self.ch_len)]
         for bd_base in range(0, self.n_beads, self.ch_len):
             leaf_val = int(self._leaf[bd_base])
             arch_val = int(self.cfg[bd_base, 6])
+            buff_len = int(0)
             for bd in range(bd_base, bd_base + self.ch_len):
                 block_val = int(self.cfg[bd, 6])
                 sel = self._SelectBead(
                     leaf_val, arch_val, block_val,
                     leaf_flag, arch_flag, block_flag)
-                # print(
-                #     'val = ',
-                #     leaf_val, arch_val, block_val,
-                #     '\tflag = ',
-                #     leaf_flag, arch_flag, block_flag,
-                #     '\tsel = ',
-                #     sel)
-                # input()
                 if(sel):
-                    for k in range(3): pos[k] = self.cfg[bd,k]
-                    pos[3] = self.cfg[bd,6]
-                    pos[4] = self._leaf[bd]
-                    sub.append(copy.deepcopy(pos))
+                    for k in range(3): buff[buff_len][k] = float(self.cfg[bd,k])
+                    buff[buff_len][3] = int(self.cfg[bd,6])
+                    buff[buff_len][4] = int(self._leaf[bd])
+                    buff_len += 1
+            if(buff_len > 0):
+                if(cm):
+                    buff, buff_len = self._CoarseGrainSubset(buff, buff_len)
+                for idx in range(buff_len):
+                    sub.append(copy.deepcopy(buff[idx][:]))
         return(np.array(sub))
+
+    def _CoarseGrainSubset(self, buff, buff_len):
+        """
+        Evaluate the center of mass of the selected block within a single chain.
+
+        If necessary, the chain will be unfolded and the resulting center of
+        mass will be brought back into the simulation region.
+
+        """
+        cm = buff[0][0:3]
+        for idx in range(1,buff_len):
+            for k in range(3):
+                cm[k] += buff[idx][k]
+                dist = buff[idx][k] - buff[0][k]
+                if(dist > 0.5*self.box[k]):
+                    cm[k] -= self.box[k]
+                elif(dist < -0.5*self.box[k]):
+                    cm[k] += self.box[k]
+
+        tot_cm = np.mean(self.cfg[:, 0:3], axis=0)
+
+        for k in range(3):
+            buff[0][k] = cm[k] / buff_len
+            if( cm[k] >= ( tot_cm[k] + 0.5*self.box[k] ) ):
+                cm[k] -= self.box[k]
+            elif( cm[k] <= ( tot_cm[k] - 0.5*self.box[k] ) ):
+                cm[k] += self.box[k]
+
+        return(buff, 1)
 
     def _SelectBead(self, leaf_val, arch_val, block_val,
         leaf_flag, arch_flag, block_flag):
@@ -341,7 +369,9 @@ class Configuration():
                 continue
         assert self.n_beads == row, 'n_beads != n_chains * ch_len'
         self._cm /= self.n_beads
+        # Sort chain architectures by their 1st head-group bead.
         print('Chain architectures')
+        self.ch_arch.sort(key=itemgetter(0))
         for ch in self.ch_arch: print(ch)
 
     def _IdentifyChainArch(self, buff):
